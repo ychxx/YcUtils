@@ -1,5 +1,7 @@
 package com.yc.ycutilslibrary.calculator;
 
+import com.yc.ycutilslibrary.exception.YcCalculateException;
+
 import java.math.BigDecimal;
 
 /**
@@ -53,7 +55,7 @@ public class YcCalculator {
      * @param b 除数
      * @return 两个参数的商
      */
-    public static double divide(double a, double b) {
+    public static double divide(double a, double b) throws YcCalculateException {
         return divide(a, b, 3);
     }
 
@@ -66,7 +68,10 @@ public class YcCalculator {
      * @param scale 表示表示需要精确到小数点以后几位。
      * @return 两个参数的商
      */
-    public static double divide(double a, double b, int scale) {
+    public static double divide(double a, double b, int scale) throws YcCalculateException {
+        if (b == 0) {
+            throw new YcCalculateException("除数不能为0!");
+        }
         /*
          * 通过BigDecimal的divide方法进行除法时就会抛异常的，异常如下：
          * java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result. at java.math.BigDecimal.divide(Unknown Source)
