@@ -82,9 +82,9 @@ public class YcVideoView extends FrameLayout {
 
             }
         });
-        mMediaPlayer.setOnInfoListener(listener);
-        mMediaPlayer.setOnSeekCompleteListener(listener);
-        mMediaPlayer.setOnBufferingUpdateListener(listener);
-        mMediaPlayer.setOnErrorListener(listener);
+//        mMediaPlayer.setOnInfoListener(listener);
+//        mMediaPlayer.setOnSeekCompleteListener(listener);
+//        mMediaPlayer.setOnBufferingUpdateListener(listener);
+//        mMediaPlayer.setOnErrorListener(listener);
     }
 }

@@ -9,6 +9,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -59,7 +60,7 @@ public class YcUtilPermission {
     }
 
     private WeakReference<Activity> mActivity;
-    private String[] mRequestPermissions;
+    private List<String> mRequestPermissions = new ArrayList<>();
     private List<String> mFailPermissions = new ArrayList<>();
     private List<String> mSuccessPermissions = new ArrayList<>();
     private List<String> mNeverAskAgainPermissions = new ArrayList<>();
@@ -67,10 +68,15 @@ public class YcUtilPermission {
     private FailCall mFailCall;
     private NeverAskAgainCall mNeverAskAgainCall;
 
-    public YcUtilPermission newInstance(Activity activity, String[] permissions) {
-        this.mActivity = new WeakReference<Activity>(activity);
-        this.mRequestPermissions = permissions;
-        return new YcUtilPermission();
+    public static YcUtilPermission newInstance(Activity activity) {
+        YcUtilPermission ycUtilPermission = new YcUtilPermission();
+        ycUtilPermission.mActivity = new WeakReference<Activity>(activity);
+        return ycUtilPermission;
+    }
+
+    public YcUtilPermission addPermissions(String[] permissions) {
+        mRequestPermissions.addAll(Arrays.asList(permissions));
+        return this;
     }
 
     public YcUtilPermission setSuccessCall(SuccessCall successCall) {
@@ -90,23 +96,11 @@ public class YcUtilPermission {
 
     public void start() {
         RxPermissions rxPermissions = new RxPermissions(mActivity.get());
-        rxPermissions.requestEach(mRequestPermissions)
+        rxPermissions.requestEach(mRequestPermissions.toArray(new String[mRequestPermissions.size()]))
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
-                        int failSize = mFailPermissions.size();
-                        int successSize = mSuccessPermissions.size();
-                        int requestSize = mRequestPermissions.length;
-                        int neverAskAgain = mNeverAskAgainPermissions.size();
-                        if (neverAskAgain + failSize + successSize >= requestSize) {
-                            if (failSize <= 0) {
-                                mSuccessCall.onCall();
-                            } else if (neverAskAgain != 0) {
-                                mNeverAskAgainCall.onCall();
-                            } else {
-                                mFailCall.onCall();
-                            }
-                        } else if (permission.granted) {
+                        if (permission.granted) {
                             // 用户已经同意该权限
                             Log.i("YcUtilPermission", "" + permission.name + "用户已经同意该权限");
                             mSuccessPermissions.add(permission.name);
@@ -118,6 +112,19 @@ public class YcUtilPermission {
                             // 用户拒绝了该权限，并且选中『不再询问』，提醒用户手动打开权限
                             Log.i("YcUtilPermission", "" + permission.name + "用户拒绝了该权限，并且选中『不再询问』");
                             mNeverAskAgainPermissions.add(permission.name);
+                        }
+                        int failSize = mFailPermissions.size();
+                        int successSize = mSuccessPermissions.size();
+                        int requestSize = mRequestPermissions.size();
+                        int neverAskAgain = mNeverAskAgainPermissions.size();
+                        if (neverAskAgain + failSize + successSize >= requestSize) {
+                            if (neverAskAgain != 0) {
+                                mNeverAskAgainCall.onCall();
+                            } else if (failSize <= 0) {
+                                mFailCall.onCall();
+                            } else {
+                                mSuccessCall.onCall();
+                            }
                         }
                     }
                 });

@@ -2,22 +2,15 @@ package com.yc.ycutils;
 
 import android.Manifest;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.yc.ycutilslibrary.common.YcIntentAction;
-import com.yc.ycutilslibrary.file.FileStreamUtils;
-import com.yc.ycutilslibrary.file.FileUtils;
-import com.yc.ycutilslibrary.permissions.YcUtilPermission;
-import com.yc.ycutilslibrary.phone.YcUtilPhoneInfo;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
     private YcIntentAction ycIntentAction;
@@ -66,22 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPermission() {
-        YcUtilPermission.requestPermissionsMoreResult(this, s, new YcUtilPermission.PermissionMoreCall() {
-            @Override
-            public void onNoPrompt() {
-                getPermission();
-            }
 
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFail() {
-
-            }
-        });
     }
 
     @Override
