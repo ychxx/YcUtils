@@ -1,7 +1,10 @@
 package com.yc.ycutilslibrary.file;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -135,6 +138,7 @@ public class FileUtils {
         }
         return s;
     }
+
 
     /**
      * 获取指定文件大小

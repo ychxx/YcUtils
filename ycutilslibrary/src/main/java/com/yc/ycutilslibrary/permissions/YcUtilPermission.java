@@ -7,6 +7,10 @@ import android.util.Log;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.functions.Consumer;
 
 /**
@@ -51,68 +55,84 @@ public class YcUtilPermission {
      */
     public static final String[] PERMISSION_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    /**
-     * 申请权限(多个申请结果会合并成一个(一个失败即为失败)，即PermissionCall只会被调用一次)
-     *
-     * @param activity    activity
-     * @param permissions 权限名
-     * @param call        回调
-     */
-    public static void requestPermissions(Activity activity, String[] permissions, PermissionCall call) {
-        RxPermissions rxPermission = new RxPermissions(activity);
-        rxPermission.request(permissions)
-                .subscribe(aBoolean -> {
-                    if (aBoolean) {
-                        call.onSuccess();
-                    } else {
-                        call.onFail();
-                    }
-                });
+    private YcUtilPermission() {
     }
 
-    public static void requestPermissionsMoreResult(Activity activity, String[] permissions, PermissionMoreCall call) {
-        RxPermissions rxPermissions = new RxPermissions(activity);
-        rxPermissions.requestEach(permissions)
+    private WeakReference<Activity> mActivity;
+    private String[] mRequestPermissions;
+    private List<String> mFailPermissions = new ArrayList<>();
+    private List<String> mSuccessPermissions = new ArrayList<>();
+    private List<String> mNeverAskAgainPermissions = new ArrayList<>();
+    private SuccessCall mSuccessCall;
+    private FailCall mFailCall;
+    private NeverAskAgainCall mNeverAskAgainCall;
+
+    public YcUtilPermission newInstance(Activity activity, String[] permissions) {
+        this.mActivity = new WeakReference<Activity>(activity);
+        this.mRequestPermissions = permissions;
+        return new YcUtilPermission();
+    }
+
+    public YcUtilPermission setSuccessCall(SuccessCall successCall) {
+        mSuccessCall = successCall;
+        return this;
+    }
+
+    public YcUtilPermission setFailCall(FailCall failCall) {
+        mFailCall = failCall;
+        return this;
+    }
+
+    public YcUtilPermission setNeverAskAgainCall(NeverAskAgainCall neverAskAgainCall) {
+        mNeverAskAgainCall = neverAskAgainCall;
+        return this;
+    }
+
+    public void start() {
+        RxPermissions rxPermissions = new RxPermissions(mActivity.get());
+        rxPermissions.requestEach(mRequestPermissions)
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
-                        if (permission.granted) {
+                        int failSize = mFailPermissions.size();
+                        int successSize = mSuccessPermissions.size();
+                        int requestSize = mRequestPermissions.length;
+                        int neverAskAgain = mNeverAskAgainPermissions.size();
+                        if (neverAskAgain + failSize + successSize >= requestSize) {
+                            if (failSize <= 0) {
+                                mSuccessCall.onCall();
+                            } else if (neverAskAgain != 0) {
+                                mNeverAskAgainCall.onCall();
+                            } else {
+                                mFailCall.onCall();
+                            }
+                        } else if (permission.granted) {
                             // 用户已经同意该权限
                             Log.i("YcUtilPermission", "" + permission.name + "用户已经同意该权限");
-                            if (call != null) call.onSuccess();
+                            mSuccessPermissions.add(permission.name);
                         } else if (permission.shouldShowRequestPermissionRationale) {
                             // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
                             Log.i("YcUtilPermission", "" + permission.name + "用户拒绝了该权限，没有选中『不再询问』");
-                            if (call != null) call.onFail();
+                            mFailPermissions.add(permission.name);
                         } else {
                             // 用户拒绝了该权限，并且选中『不再询问』，提醒用户手动打开权限
                             Log.i("YcUtilPermission", "" + permission.name + "用户拒绝了该权限，并且选中『不再询问』");
-                            if (call != null) call.onNoPrompt();
+                            mNeverAskAgainPermissions.add(permission.name);
                         }
                     }
                 });
     }
 
-    /**
-     * 权限回调，用于处理申请成功和失败的回调
-     */
-    public interface PermissionCall {
-        /**
-         * 请求权限成功
-         */
-        void onSuccess();
-
-        /**
-         * 请求权限失败
-         */
-        void onFail();
+    public interface SuccessCall {
+        void onCall();
     }
 
-    public interface PermissionMoreCall extends PermissionCall {
-        /**
-         * 用户拒绝了该权限，并且选中『不再询问』
-         */
-        void onNoPrompt();
+    public interface FailCall {
+        void onCall();
+    }
+
+    public interface NeverAskAgainCall {
+        void onCall();
     }
 }
 
