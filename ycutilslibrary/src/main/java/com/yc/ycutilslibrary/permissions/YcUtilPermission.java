@@ -42,7 +42,7 @@ public class YcUtilPermission {
     /**
      * 手机权限
      */
-    public static final String[] PERMISSION_PHONE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CALL_LOG, Manifest.permission.WRITE_CALL_LOG, Manifest.permission.ADD_VOICEMAIL, Manifest.permission.USE_SIP, Manifest.permission.PROCESS_OUTGOING_CALLS};
+    public static final String[] PERMISSION_PHONE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CALL_LOG, Manifest.permission.WRITE_CALL_LOG, Manifest.permission.USE_SIP, Manifest.permission.PROCESS_OUTGOING_CALLS};
     /**
      * 传感器权限
      */
@@ -118,11 +118,11 @@ public class YcUtilPermission {
                         int requestSize = mRequestPermissions.size();
                         int neverAskAgain = mNeverAskAgainPermissions.size();
                         if (neverAskAgain + failSize + successSize >= requestSize) {
-                            if (neverAskAgain != 0) {
+                            if (neverAskAgain > 0 && mNeverAskAgainCall != null) {
                                 mNeverAskAgainCall.onCall();
-                            } else if (failSize <= 0) {
+                            } else if (failSize > 0 && mFailCall != null) {
                                 mFailCall.onCall();
-                            } else {
+                            } else if (mSuccessCall != null) {
                                 mSuccessCall.onCall();
                             }
                         }

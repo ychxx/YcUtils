@@ -66,7 +66,7 @@ public class Operator {
     }
 
     private void doOnNext() {
-        //只接受前2个
+        //接受前处理
         Observable.just(1, 2, 3, 4)
                 .doOnNext(integer -> Log.e("asd", "接受前处理"))
                 .subscribe(integer -> Log.e("asd", integer + ""));

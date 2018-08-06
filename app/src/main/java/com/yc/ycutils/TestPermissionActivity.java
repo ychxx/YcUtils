@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.yc.yclibrary.base.YcAppCompatActivity;
+import com.yc.ycutilslibrary.action.YcAction;
 import com.yc.ycutilslibrary.permissions.YcUtilPermission;
 
 import butterknife.OnClick;
@@ -35,6 +36,7 @@ public class TestPermissionActivity extends YcAppCompatActivity {
                 .addPermissions(YcUtilPermission.PERMISSION_PHONE)
                 .addPermissions(YcUtilPermission.PERMISSION_CAMERA)
                 .addPermissions(YcUtilPermission.PERMISSION_LOCATION)
+                .addPermissions(YcUtilPermission.PERMISSION_STORAGE)
                 .setSuccessCall(() -> showToast("成功"))
                 .setFailCall(() -> showToast("申请权限被拒绝!"))
                 .setNeverAskAgainCall(() -> showToast("申请权限被拒绝且勾选了『不再询问』"))
