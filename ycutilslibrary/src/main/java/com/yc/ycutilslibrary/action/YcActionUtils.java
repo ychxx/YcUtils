@@ -23,7 +23,7 @@ public class YcActionUtils {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType(fileType);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        fragment.startActivityForResult(intent, request);
+        fragment.startActivityForResult(Intent.createChooser(intent, "打开文件的方式"), request);
     }
 
     /**
@@ -32,10 +32,10 @@ public class YcActionUtils {
      * @param fragment 页面
      * @param telNum   电话号码
      */
-    public static void openTelephone(Fragment fragment, String telNum) {
+    public static void openTelephone(Fragment fragment, String telNum, int request) {
         Uri uri = Uri.parse("tel:" + telNum.trim());//去掉空格
         Intent intent = new Intent(Intent.ACTION_DIAL, uri);
-        fragment.startActivity(intent);
+        fragment.startActivityForResult(intent, request);
     }
 
     /**
@@ -44,10 +44,10 @@ public class YcActionUtils {
      * @param fragment 页面
      * @param webUrl   网页地址
      */
-    public static void openWeb(Fragment fragment, String webUrl) {
+    public static void openWeb(Fragment fragment, String webUrl, int request) {
         Uri uri = Uri.parse(webUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        fragment.startActivity(intent);
+        fragment.startActivityForResult(Intent.createChooser(intent, "打开网页的方式"), request);
     }
 
     /**
@@ -55,9 +55,9 @@ public class YcActionUtils {
      *
      * @param fragment 页面
      */
-    public static void openSetting(Fragment fragment) {
+    public static void openSetting(Fragment fragment, int request) {
         Intent intent = new Intent(Settings.ACTION_SETTINGS);
-        fragment.startActivity(intent);
+        fragment.startActivityForResult(intent, request);
     }
 
     /**
@@ -65,17 +65,20 @@ public class YcActionUtils {
      *
      * @param fragment 页面
      */
-    public static void openAppInfo(Fragment fragment) {
+    public static void openAppInfo(Fragment fragment, int request) {
         Uri packageURI = Uri.parse("package:" + fragment.getActivity().getPackageName());
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-        fragment.startActivity(intent);
+        fragment.startActivityForResult(intent, request);
     }
+
     public static void openSms(Fragment activity, String savePath, int request) {
 
     }
+
     public static void openCamera(Fragment activity, String savePath, int request) {
 
     }
+
     public static void openCrop(Fragment activity, String savePath, int request) {
 
     }

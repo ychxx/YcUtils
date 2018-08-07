@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public class YcAction {
-
+    public final static int EMPTY_REQUEST_CODE = 233;
     private Activity activity;
     private ResultSuccess mResultSuccess;
     private ResultFail mResultFail;
@@ -57,6 +57,10 @@ public class YcAction {
         }, new YcActionFragment.Result() {
             @Override
             public void onCall(Fragment fragment, int requestCode, int resultCode, Intent data) {
+                if (requestCode == EMPTY_REQUEST_CODE) {
+                    startNext(fragment);
+                    return;
+                }
                 if (resultCode == Activity.RESULT_OK && requestCode == currentActionBean.getRequestCode()) {
                     if (mResultSuccess != null)
                         mResultSuccess.onSuccess(currentActionBean.getPath(data, fragment.getActivity()));
@@ -75,10 +79,9 @@ public class YcAction {
     private void startNext(Fragment fragment) {
         if (mYcActionBeans == null || mYcActionBeans.size() <= 0)
             return;
-        int lastIndex = mYcActionBeans.size() - 1;
-        currentActionBean = mYcActionBeans.get(lastIndex);
+        currentActionBean = mYcActionBeans.get(0);
         currentActionBean.play(fragment);
-        mYcActionBeans.remove(lastIndex);
+        mYcActionBeans.remove(0);
     }
 
     public interface ResultFail {

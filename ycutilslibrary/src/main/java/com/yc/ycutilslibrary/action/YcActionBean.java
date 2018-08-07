@@ -23,22 +23,22 @@ public class YcActionBean {
                 YcActionUtils.openCamera(fragment, mMsg, mActionType.getRequestCode());
                 break;
             case WEB:
-                YcActionUtils.openWeb(fragment, mMsg);
+                YcActionUtils.openWeb(fragment, mMsg, mActionType.getRequestCode());
                 break;
             case CROP:
                 YcActionUtils.openCrop(fragment, mMsg, mActionType.getRequestCode());
                 break;
             case TELEPHONE:
-                YcActionUtils.openTelephone(fragment, mMsg);
+                YcActionUtils.openTelephone(fragment, mMsg, mActionType.getRequestCode());
                 break;
             case SMS:
                 YcActionUtils.openSms(fragment, mMsg, mActionType.getRequestCode());
                 break;
             case SETTING:
-                YcActionUtils.openSetting(fragment);
+                YcActionUtils.openSetting(fragment, mActionType.getRequestCode());
                 break;
             case APP_INFO:
-                YcActionUtils.openAppInfo(fragment);
+                YcActionUtils.openAppInfo(fragment, mActionType.getRequestCode());
                 break;
         }
     }
