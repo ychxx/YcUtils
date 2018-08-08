@@ -11,7 +11,7 @@ import com.yc.ycutilslibrary.common.YcTransform;
  */
 
 public class YcActionBean {
-    private ActionTypeEnum mActionType;
+    private YcActionTypeEnum mActionType;
     private String mMsg;
 
     public void play(Fragment fragment) {
@@ -66,16 +66,16 @@ public class YcActionBean {
         }
     }
 
-    public YcActionBean(ActionTypeEnum actionType) {
+    public YcActionBean(YcActionTypeEnum actionType) {
         mActionType = actionType;
     }
 
 
-    public ActionTypeEnum getActionType() {
+    public YcActionTypeEnum getActionType() {
         return mActionType;
     }
 
-    public void setActionType(ActionTypeEnum actionType) {
+    public void setActionType(YcActionTypeEnum actionType) {
         this.mActionType = actionType;
     }
 

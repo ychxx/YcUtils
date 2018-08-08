@@ -1,13 +1,14 @@
 package com.yc.ycutils;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.yc.yclibrary.base.YcAppCompatActivity;
-import com.yc.ycutilslibrary.action.ActionTypeEnum;
+import com.yc.ycutilslibrary.action.YcActionTypeEnum;
 import com.yc.ycutilslibrary.action.YcAction;
-import com.yc.ycutilslibrary.action.YcActionBean;
+import com.yc.ycutilslibrary.exception.YcException;
 
 import butterknife.OnClick;
 
@@ -26,32 +27,42 @@ public class SelectActivity extends YcAppCompatActivity {
     protected void initView(Bundle bundle) {
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("asd", "asd");
+    }
+
     @OnClick({R.id.selectPermissionBtn, R.id.selectAction})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.selectPermissionBtn:
-                TestPermissionActivity.newInstance(getActivity());
+//                TestPermissionActivity.newInstance(getActivity());
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");  // 选择文件类型
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), 233);
                 break;
             case R.id.selectAction:
-//                YcActionFragment.newInstance(getActivity(), null, null);
                 YcAction.newInstance(getActivity())
-                        .newAction(ActionTypeEnum.SELECTOR)
+                        .newAction(YcActionTypeEnum.SELECTOR)
                         .addMsg("*/*")
-                        .newAction(ActionTypeEnum.TELEPHONE)
+                        .newAction(YcActionTypeEnum.TELEPHONE)
                         .addMsg("18094012545")
-                        .newAction(ActionTypeEnum.SETTING)
-                        .newAction(ActionTypeEnum.APP_INFO)
-                        .newAction(ActionTypeEnum.WEB)
-                        .addMsg("https://www.baidu.com")
+                        .newAction(YcActionTypeEnum.SETTING)
+                        .newAction(YcActionTypeEnum.APP_INFO)
+//                        .newAction(YcActionTypeEnum.WEB)
+//                        .addMsg("https://www.baidu.com")
                         .setResultSuccess(new YcAction.ResultSuccess() {
                             @Override
-                            public void onSuccess(String path) {
+                            public void onSuccess(String path, YcActionTypeEnum actionTypeEnum) {
                                 Log.e("asd", "成功：" + path);
                             }
                         })
                         .setResultFail(new YcAction.ResultFail() {
                             @Override
-                            public void onFail() {
+                            public void onFail(YcActionTypeEnum actionTypeEnum) {
                                 Log.e("asd", "失败");
                             }
                         }).start();

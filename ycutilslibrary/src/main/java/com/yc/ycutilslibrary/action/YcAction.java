@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 
-import com.yc.ycutilslibrary.common.YcTransform;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class YcAction {
 
     List<YcActionBean> mYcActionBeans = new ArrayList<>();
 
-    public YcAction newAction(ActionTypeEnum actionTypeEnum) {
+    public YcAction newAction(YcActionTypeEnum actionTypeEnum) {
         mYcActionBeans.add(new YcActionBean(actionTypeEnum));
         return this;
     }
@@ -63,10 +61,10 @@ public class YcAction {
                 }
                 if (resultCode == Activity.RESULT_OK && requestCode == currentActionBean.getRequestCode()) {
                     if (mResultSuccess != null)
-                        mResultSuccess.onSuccess(currentActionBean.getPath(data, fragment.getActivity()));
+                        mResultSuccess.onSuccess(currentActionBean.getPath(data, fragment.getActivity()),currentActionBean.getActionType());
                 } else {
                     if (mResultFail != null) {
-                        mResultFail.onFail();
+                        mResultFail.onFail(currentActionBean.getActionType());
                     }
                 }
                 startNext(fragment);
@@ -85,10 +83,10 @@ public class YcAction {
     }
 
     public interface ResultFail {
-        void onFail();
+        void onFail(YcActionTypeEnum actionTypeEnum);
     }
 
     public interface ResultSuccess {
-        void onSuccess(String path);
+        void onSuccess(String path,YcActionTypeEnum actionTypeEnum);
     }
 }
