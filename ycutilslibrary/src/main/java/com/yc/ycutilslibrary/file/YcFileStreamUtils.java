@@ -4,13 +4,12 @@ import android.os.Environment;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * 用于文件流的工具类
  */
 
-public class FileStreamUtils {
+public class YcFileStreamUtils {
     /**
      * SD卡根目录地址
      */
@@ -24,7 +23,7 @@ public class FileStreamUtils {
      */
     public static void writeFile(String filePath, String writeContent) {
         try {
-            FileUtils.createFile(filePath);
+            YcFileUtils.createFile(filePath);
             FileOutputStream fout = new FileOutputStream(filePath);
             byte[] bytes = writeContent.getBytes();
             fout.write(bytes);

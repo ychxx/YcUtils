@@ -15,4 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="打开Action" />
+    <Button
+        android:id="@+id/selectRandom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="随机数测试" />
 </LinearLayout>

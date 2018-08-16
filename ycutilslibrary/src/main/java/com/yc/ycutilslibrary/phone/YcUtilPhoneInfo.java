@@ -43,7 +43,7 @@ public class YcUtilPhoneInfo {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 return "";
             }
-            return YcEmpty.getString(telephonyManager.getDeviceId());
+            return YcEmpty.getNoEmpty(telephonyManager.getDeviceId());
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -68,7 +68,7 @@ public class YcUtilPhoneInfo {
                 return "";
             }
             //获取IMSI号
-            return YcEmpty.getString(telephonyManager.getSubscriberId());
+            return YcEmpty.getNoEmpty(telephonyManager.getSubscriberId());
         } catch (Exception e) {
             e.printStackTrace();
             return "";

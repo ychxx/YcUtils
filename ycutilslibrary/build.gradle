@@ -30,10 +30,20 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
     /* 动态权限 */
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.0.5'
+    /* 加载图片
+    Glide使用的版本是 27.0.2 ，而我使用的是26的，所以导致冲突了，下面是解决方案
+    1、升级自己的版本到27.0.2
+    2、使用exclude排除冲突 （我使用的方法）
+    3、降级Glide到 4.3.1*/
+    implementation('com.github.bumptech.glide:glide:4.7.1') {
+        exclude group: "com.android.support"
+    }
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 }

@@ -4,7 +4,11 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 
+import com.yc.ycutilslibrary.common.YcEmpty;
 import com.yc.ycutilslibrary.common.YcTransform;
+import com.yc.ycutilslibrary.file.YcFileUtils;
+
+import java.io.File;
 
 /**
  *
@@ -20,7 +24,13 @@ public class YcActionBean {
                 YcActionUtils.openFileManager(fragment, mMsg, mActionType.getRequestCode());
                 break;
             case CAMERA:
-                YcActionUtils.openCamera(fragment, mMsg, mActionType.getRequestCode());
+                //TODO 权限申请功能后期完成
+                File saveCameraImgFile;
+                if (YcEmpty.isEmpty(mMsg)) {
+                    mMsg = YcFileUtils.getImgFileName();
+                }
+                saveCameraImgFile = YcFileUtils.createFile(mMsg);
+                YcActionUtils.openCamera(fragment, saveCameraImgFile, mActionType.getRequestCode());
                 break;
             case WEB:
                 YcActionUtils.openWeb(fragment, mMsg, mActionType.getRequestCode());
@@ -48,7 +58,7 @@ public class YcActionBean {
             case SELECTOR:
                 return YcTransform.imgUriToAbsolutePath(context, data.getData());
             case CAMERA:
-                return YcTransform.imgUriToAbsolutePath(context, data.getData());
+                return mMsg;
             case WEB:
                 return "";
             case CROP:

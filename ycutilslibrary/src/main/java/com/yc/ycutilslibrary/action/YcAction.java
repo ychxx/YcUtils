@@ -3,6 +3,7 @@ package com.yc.ycutilslibrary.action;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,6 @@ public class YcAction {
     private Activity activity;
     private ResultSuccess mResultSuccess;
     private ResultFail mResultFail;
-
     public static YcAction newInstance(Activity activity) {
         YcAction ycAction = new YcAction();
         ycAction.activity = activity;
@@ -55,13 +55,9 @@ public class YcAction {
         }, new YcActionFragment.Result() {
             @Override
             public void onCall(Fragment fragment, int requestCode, int resultCode, Intent data) {
-                if (requestCode == EMPTY_REQUEST_CODE) {
-                    startNext(fragment);
-                    return;
-                }
-                if (resultCode == Activity.RESULT_OK && requestCode == currentActionBean.getRequestCode()) {
+                if (resultCode == Activity.RESULT_OK && requestCode == currentActionBean.getRequestCode() || requestCode == EMPTY_REQUEST_CODE) {
                     if (mResultSuccess != null)
-                        mResultSuccess.onSuccess(currentActionBean.getPath(data, fragment.getActivity()),currentActionBean.getActionType());
+                        mResultSuccess.onSuccess(currentActionBean.getPath(data, fragment.getActivity()), currentActionBean.getActionType());
                 } else {
                     if (mResultFail != null) {
                         mResultFail.onFail(currentActionBean.getActionType());
@@ -87,6 +83,6 @@ public class YcAction {
     }
 
     public interface ResultSuccess {
-        void onSuccess(String path,YcActionTypeEnum actionTypeEnum);
+        void onSuccess(String path, YcActionTypeEnum actionTypeEnum);
     }
 }

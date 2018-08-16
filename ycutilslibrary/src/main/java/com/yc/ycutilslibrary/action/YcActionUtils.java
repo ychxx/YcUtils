@@ -4,8 +4,22 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.v4.content.FileProvider;
+import android.widget.Toast;
+
+import com.yc.ycutilslibrary.R;
+import com.yc.ycutilslibrary.common.YcLog;
+import com.yc.ycutilslibrary.file.YcFileUtils;
+import com.yc.ycutilslibrary.phone.YcUtilPhoneInfo;
+import com.yc.ycutilslibrary.phone.YcUtilVersion;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * 跳转到其他应用
@@ -71,15 +85,39 @@ public class YcActionUtils {
         fragment.startActivityForResult(intent, request);
     }
 
-    public static void openSms(Fragment activity, String savePath, int request) {
+    public static void openSms(Fragment fragment, String savePath, int request) {
 
     }
 
-    public static void openCamera(Fragment activity, String savePath, int request) {
+    /**
+     * 启动系统照相机
+     *
+     * @param fragment
+     * @param saveImgFile 照片保存
+     * @param request
+     */
+    public static void openCamera(Fragment fragment, File saveImgFile, int request) {
+        Uri outPutUri;
+        if (Build.VERSION.SDK_INT >= 23) {
+            outPutUri = FileProvider.getUriForFile(fragment.getContext(), YcUtilVersion.getPackageName(fragment.getContext()) + ".fileprovider", saveImgFile);
+        } else {
+            outPutUri = Uri.fromFile(saveImgFile);
+        }
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);//设置Action为拍照
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutUri);//将拍取的照片保存到指定URI
 
+        List result = fragment.getActivity().getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_ALL);
+        if (result.isEmpty()) {
+            Toast.makeText(fragment.getActivity(), "没有照相机", Toast.LENGTH_SHORT).show();
+            YcLog.e("没有照相机");
+        } else {
+            fragment.startActivityForResult(intent, request);
+        }
     }
 
-    public static void openCrop(Fragment activity, String savePath, int request) {
+    public static void openCrop(Fragment fragment, String savePath, int request) {
 
     }
 }

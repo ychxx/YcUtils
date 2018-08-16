@@ -10,12 +10,12 @@ import com.yc.ycutilslibrary.YcUtilsInit;
  * SharedPreferences数据存储的帮助类
  */
 
-public enum PrefHelper {
+public enum YcPrefHelper {
     Instance();
     private static final String PREFERENCE_NAME = "db_preferences";//数据存储名
     private SharedPreferences mPre;//SharedPreferences数据存储
 
-    PrefHelper() {
+    YcPrefHelper() {
         if (YcUtilsInit.mApplication == null) {
             Log.e("YcUtils", "请在Application的onCreate()里调用YcUtilsInit.init(application)进行初始化");
         } else {

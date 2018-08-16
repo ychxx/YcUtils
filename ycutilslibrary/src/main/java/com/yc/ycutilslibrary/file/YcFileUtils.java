@@ -1,11 +1,10 @@
 package com.yc.ycutilslibrary.file;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
+
+import com.yc.ycutilslibrary.common.YcEmpty;
+import com.yc.ycutilslibrary.common.YcRandom;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,39 +15,35 @@ import java.io.FileInputStream;
  * 处理文件相关
  */
 
-public class FileUtils {
+public class YcFileUtils {
     /**
      * 创建一个文件
      *
      * @param filePath 文件地址（包含后缀）
      * @return 返回是否创建成功
      */
-    public static boolean createFile(String filePath) {
+    public static File createFile(String filePath) {
+        File newFile = null;
         try {
-            File newFile = new File(filePath);
+            newFile = new File(filePath);
             //判断文件是否不存在，不存在则创建
             if (!newFile.getParentFile().exists()) {
                 if (!newFile.getParentFile().mkdirs()) {
                     Log.e("YcUtils", "文件夹创建失败" + filePath);
-                    return false;
                 }
-            } else if (!newFile.exists()) {
+            }
+            if (!newFile.exists()) {
                 if (newFile.createNewFile()) {
                     Log.e("YcUtils", "文件创建成功" + filePath);
-                    return true;
                 } else {
                     Log.e("YcUtils", "文件创建失败");
-                    return false;
                 }
-            } else {
-                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("YcUtils", "文件创建失败异常:" + e.getMessage());
-            return false;
         }
-        return true;
+        return newFile;
     }
 
     /**
@@ -58,7 +53,7 @@ public class FileUtils {
      * @return 是否删除成功
      */
     public static boolean delFiel(String filePath) {
-        if (TextUtils.isEmpty(filePath))
+        if (YcEmpty.isEmpty(filePath))
             return true;
         try {
             File file = new File(filePath);
@@ -78,7 +73,7 @@ public class FileUtils {
      * @return 是否存在
      */
     public static boolean checkFileExists(String fileUrl) {
-        if (!TextUtils.isEmpty(fileUrl)) {
+        if (!YcEmpty.isEmpty(fileUrl)) {
             File newPath = new File(fileUrl);
             return newPath.exists();
         } else {
@@ -93,7 +88,7 @@ public class FileUtils {
      * @return 后缀
      */
     public static String filePathToSuffix(String filePath) {
-        if (TextUtils.isEmpty(filePath))
+        if (YcEmpty.isEmpty(filePath))
             return null;
         return fileNameToSuffix(new File(filePath).getName());
     }
@@ -105,7 +100,7 @@ public class FileUtils {
      * @return 后缀
      */
     public static String fileNameToSuffix(String fileName) {
-        if (TextUtils.isEmpty(fileName))
+        if (YcEmpty.isEmpty(fileName))
             return null;
         return fileName.substring(1, fileName.lastIndexOf("."));
     }
@@ -117,7 +112,7 @@ public class FileUtils {
      * @return
      */
     public static byte[] fileToBytes(String filePath) {
-        if (TextUtils.isEmpty(filePath))
+        if (YcEmpty.isEmpty(filePath))
             return null;
         byte[] s = null;
         try {
@@ -161,5 +156,8 @@ public class FileUtils {
             Log.e("YcUtils", "获取文件大小失败！原因：" + e.getMessage());
         }
         return size;
+    }
+    public static String getImgFileName(){
+        return Environment.getExternalStorageDirectory() + "/YcUtils/" + YcRandom.getNameImgOfPNG();
     }
 }

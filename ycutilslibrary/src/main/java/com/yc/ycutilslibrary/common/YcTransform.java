@@ -12,6 +12,8 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Base64;
 
+import com.yc.ycutilslibrary.file.YcFileUtils;
+
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -25,15 +27,49 @@ public class YcTransform {
      * @param imgPath 图片路径（包含后缀）
      */
     public static String imgPathToString(String imgPath) {
-        Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
-        return imgBitmapToString(bitmap);
+        if (!YcFileUtils.checkFileExists(imgPath)) {
+            YcLog.e("转换的图片文件不存在");
+            return "";
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
+            return imgBitmapToString(bitmap);
+        }
     }
 
+    /**
+     * 图片转为String
+     *
+     * @param bitmap
+     * @return
+     */
     public static String imgBitmapToString(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        //得到图片的String
-        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            //得到图片的String
+            return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        } catch (Exception e) {
+            YcLog.e("Bitmap转String失败");
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
+     * string转成bitmap
+     */
+    public static Bitmap imgStringToBitmap(String data) {
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray;
+            bitmapArray = Base64.decode(data, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+            return bitmap;
+        } catch (Exception e) {
+            YcLog.e("string转换Bitmap失败");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
