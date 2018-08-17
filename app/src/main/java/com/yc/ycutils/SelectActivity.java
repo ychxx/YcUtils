@@ -8,10 +8,6 @@ import android.view.View;
 import com.yc.yclibrary.base.YcAppCompatActivity;
 import com.yc.ycutilslibrary.action.YcActionTypeEnum;
 import com.yc.ycutilslibrary.action.YcAction;
-import com.yc.ycutilslibrary.common.YcLog;
-import com.yc.ycutilslibrary.common.YcRandom;
-import com.yc.ycutilslibrary.exception.YcException;
-
 import butterknife.OnClick;
 
 /**
@@ -43,7 +39,9 @@ public class SelectActivity extends YcAppCompatActivity {
                 break;
             case R.id.selectAction:
                 YcAction.newInstance(getActivity())
-                        .newAction(YcActionTypeEnum.CAMERA)
+//                        .newAction(YcActionTypeEnum.CAMERA)
+                        .newAction(YcActionTypeEnum.CROP)
+                        .addMsg("/storage/emulated/0/YcUtils/1534488187403_328/.png")
 //                        .newAction(YcActionTypeEnum.WEB)
 //                        .addMsg("https://www.baidu.com")
                         .setResultSuccess(new YcAction.ResultSuccess() {
@@ -60,6 +58,7 @@ public class SelectActivity extends YcAppCompatActivity {
                         }).start();
                 break;
             case R.id.selectRandom:
+                TestActivity.newInstance(getActivity());
                 break;
         }
     }

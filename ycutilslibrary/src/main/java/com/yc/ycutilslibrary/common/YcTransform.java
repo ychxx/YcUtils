@@ -3,6 +3,7 @@ package com.yc.ycutilslibrary.common;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,11 +11,15 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.util.Base64;
 
+import com.yc.ycutilslibrary.R;
 import com.yc.ycutilslibrary.file.YcFileUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 
 /**
  * 转换
@@ -52,6 +57,35 @@ public class YcTransform {
             YcLog.e("Bitmap转String失败");
             e.printStackTrace();
             return "";
+        }
+    }
+
+    /**
+     * 资源图片转成bitmap
+     *
+     * @param context  上下文
+     * @param imgIdRes 图片资源id(drawable或mipmap)
+     */
+    public static Bitmap imgIdResToBitmap(Context context, @DrawableRes int imgIdRes) {
+        Bitmap bitmap;
+        try {
+            Resources res = context.getResources();
+            bitmap = BitmapFactory.decodeResource(res, imgIdRes);
+            return bitmap;
+        } catch (Exception e) {
+            YcLog.e("string转换Bitmap失败");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Bitmap imgPathToBitmap(String imgPath) {
+        try {
+            return BitmapFactory.decodeStream(new FileInputStream(imgPath));
+        } catch (Exception e) {
+            YcLog.e("path转换Bitmap失败");
+            e.printStackTrace();
+            return null;
         }
     }
 

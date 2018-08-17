@@ -10,10 +10,19 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.content.FileProvider;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.yc.ycutilslibrary.R;
 import com.yc.ycutilslibrary.common.YcLog;
+import com.yc.ycutilslibrary.common.YcTransform;
 import com.yc.ycutilslibrary.file.YcFileUtils;
 import com.yc.ycutilslibrary.phone.YcUtilPhoneInfo;
 import com.yc.ycutilslibrary.phone.YcUtilVersion;
@@ -94,7 +103,7 @@ public class YcActionUtils {
      *
      * @param fragment
      * @param saveImgFile 照片保存
-     * @param request
+     * @param request     请求码
      */
     public static void openCamera(Fragment fragment, File saveImgFile, int request) {
         Uri outPutUri;
@@ -117,7 +126,16 @@ public class YcActionUtils {
         }
     }
 
-    public static void openCrop(Fragment fragment, String savePath, int request) {
-
+    public static void openCrop(Fragment fragment, String imgPath, int request) {
+        YcCropActivity.newInstance(fragment,imgPath,request);
+//        Activity activity = fragment.getActivity();
+//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        LinearLayout linearLayout = new LinearLayout(activity);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+//        RelativeLayout relativeLayout = new RelativeLayout(activity);
+//        CropImageView cropImageView = new CropImageView(activity);
+//        cropImageView.setImageBitmap(YcTransform.imgPathToBitmap(imgPath));
+//        relativeLayout.addView(cropImageView);
+//        activity.addContentView(relativeLayout, layoutParams);
     }
 }

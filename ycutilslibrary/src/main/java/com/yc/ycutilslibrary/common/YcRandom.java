@@ -48,7 +48,7 @@ public class YcRandom {
      * @return
      */
     public static String getNameImgOfPNG() {
-        return System.currentTimeMillis() + "_" + getString(3) + File.separator + ".png";
+        return System.currentTimeMillis() + "_" + getString(3) + File.separator + "png";
     }
 
     /**
@@ -57,6 +57,6 @@ public class YcRandom {
      * @return
      */
     public static String getNameImgOfJPG() {
-        return System.currentTimeMillis() + "_" + getString(3) + File.separator + ".jpg";
+        return System.currentTimeMillis() + "_" + getString(3) + File.separator + "jpg";
     }
 }

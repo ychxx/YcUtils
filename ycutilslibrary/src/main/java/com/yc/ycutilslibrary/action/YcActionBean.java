@@ -85,9 +85,9 @@ public class YcActionBean {
         return mActionType;
     }
 
-    public void setActionType(YcActionTypeEnum actionType) {
-        this.mActionType = actionType;
-    }
+//    public void setActionType(YcActionTypeEnum actionType) {
+//        this.mActionType = actionType;
+//    }
 
     public int getRequestCode() {
         return this.mActionType.getRequestCode();
