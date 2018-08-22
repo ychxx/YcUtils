@@ -126,16 +126,7 @@ public class YcActionUtils {
         }
     }
 
-    public static void openCrop(Fragment fragment, String imgPath, int request) {
-        YcCropActivity.newInstance(fragment,imgPath,request);
-//        Activity activity = fragment.getActivity();
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//        LinearLayout linearLayout = new LinearLayout(activity);
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-//        RelativeLayout relativeLayout = new RelativeLayout(activity);
-//        CropImageView cropImageView = new CropImageView(activity);
-//        cropImageView.setImageBitmap(YcTransform.imgPathToBitmap(imgPath));
-//        relativeLayout.addView(cropImageView);
-//        activity.addContentView(relativeLayout, layoutParams);
+    public static void openCrop(Fragment fragment, String imgPath, String imgPathSave, int request) {
+        YcCropActivity.newInstance(fragment,imgPath,imgPathSave,request);
     }
 }

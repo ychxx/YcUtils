@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.yc.yclibrary.base.YcAppCompatActivity;
-import com.yc.ycutilslibrary.action.YcAction;
 import com.yc.ycutilslibrary.permissions.YcUtilPermission;
 
 import butterknife.OnClick;

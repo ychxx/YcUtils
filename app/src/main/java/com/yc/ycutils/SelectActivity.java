@@ -8,6 +8,7 @@ import android.view.View;
 import com.yc.yclibrary.base.YcAppCompatActivity;
 import com.yc.ycutilslibrary.action.YcActionTypeEnum;
 import com.yc.ycutilslibrary.action.YcAction;
+
 import butterknife.OnClick;
 
 /**
@@ -31,34 +32,37 @@ public class SelectActivity extends YcAppCompatActivity {
         Log.e("asd", "asd");
     }
 
-    @OnClick({R.id.selectPermissionBtn, R.id.selectAction,R.id.selectRandom})
+    @OnClick({R.id.selectPermissionBtn, R.id.selectAction, R.id.selectRandom,R.id.selectWidget})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.selectPermissionBtn:
                 TestPermissionActivity.newInstance(getActivity());
                 break;
             case R.id.selectAction:
-                YcAction.newInstance(getActivity())
-//                        .newAction(YcActionTypeEnum.CAMERA)
-                        .newAction(YcActionTypeEnum.CROP)
-                        .addMsg("/storage/emulated/0/YcUtils/1534488187403_328/.png")
-//                        .newAction(YcActionTypeEnum.WEB)
-//                        .addMsg("https://www.baidu.com")
-                        .setResultSuccess(new YcAction.ResultSuccess() {
-                            @Override
-                            public void onSuccess(String path, YcActionTypeEnum actionTypeEnum) {
-                                Log.e("asd", "成功：" + path);
-                            }
-                        })
-                        .setResultFail(new YcAction.ResultFail() {
-                            @Override
-                            public void onFail(YcActionTypeEnum actionTypeEnum) {
-                                Log.e("asd", "失败");
-                            }
-                        }).start();
+//                YcAction.newInstance(getActivity())
+////                        .newAction(YcActionTypeEnum.CAMERA)
+//                        .newAction(YcActionTypeEnum.CROP)
+//                        .addMsg("/storage/emulated/0/YcUtils/1534488187403_328/.png")
+////                        .newAction(YcActionTypeEnum.WEB)
+////                        .addMsg("https://www.baidu.com")
+//                        .setResultSuccess(new YcAction.ResultSuccess() {
+//                            @Override
+//                            public void onSuccess(String path, YcActionTypeEnum actionTypeEnum) {
+//                                Log.e("asd", "成功：" + path);
+//                            }
+//                        })
+//                        .setResultFail(new YcAction.ResultFail() {
+//                            @Override
+//                            public void onFail(YcActionTypeEnum actionTypeEnum) {
+//                                Log.e("asd", "失败");
+//                            }
+//                        }).start();
                 break;
             case R.id.selectRandom:
                 TestActivity.newInstance(getActivity());
+                break;
+            case R.id.selectWidget:
+                TestWidgetActivity.newInstance(getActivity());
                 break;
         }
     }

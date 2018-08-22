@@ -6,6 +6,8 @@ import android.support.annotation.IdRes;
 import com.yc.ycutilslibrary.common.YcLog;
 import com.yc.ycutilslibrary.file.YcImgUtils;
 
+import org.xutils.x;
+
 /**
  * 初始化作用
  */
@@ -14,12 +16,15 @@ public class YcUtilsInit {
     public static Application mApplication = null;
 
     /**
-     * 使用PrefHelper必须先初始化
+     * 使用PrefHelper、下载必须先初始化
      *
      * @param application
      */
     public static void init(Application application) {
         mApplication = application;
+        //下载XUtils3初始化
+        x.Ext.init(application);
+        x.Ext.setDebug(false); // 是否输出debug日志, 开启debug会影响性能.
     }
 
     /**

@@ -38,6 +38,7 @@
             android:name=".TestPermissionActivity"
             android:launchMode="singleTop" />
         <activity android:name=".TestActivity" />
+        <activity android:name=".TestWidgetActivity"/>
     </application>
 
 </manifest>

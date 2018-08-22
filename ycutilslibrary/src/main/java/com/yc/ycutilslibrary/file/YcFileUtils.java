@@ -1,10 +1,17 @@
 package com.yc.ycutilslibrary.file;
 
+import android.app.ProgressDialog;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.yc.ycutilslibrary.common.YcEmpty;
+import com.yc.ycutilslibrary.common.YcLog;
 import com.yc.ycutilslibrary.common.YcRandom;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -160,4 +167,15 @@ public class YcFileUtils {
     public static String getImgFileName(){
         return Environment.getExternalStorageDirectory() + "/YcUtils/" + YcRandom.getNameImgOfPNG();
     }
+    public static void downloadFile(String url, String savePath, Callback.ProgressCallback<File> callback) {
+        if (YcEmpty.isEmpty(url)) {
+            YcLog.e("下载地址为空");
+            return;
+        }
+        RequestParams requestParams = new RequestParams(url);
+        requestParams.setSaveFilePath(savePath);
+        YcLog.e("下载地址" + url);
+        x.http().get(requestParams, callback);
+    }
+
 }
