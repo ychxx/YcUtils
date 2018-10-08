@@ -9,6 +9,7 @@ import com.yc.ycutilslibrary.action.bean.YcActionCameraBean;
 import com.yc.ycutilslibrary.action.bean.YcActionSelectorBean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,9 +65,10 @@ public class YcAction {
         }, new YcActionFragment.Result() {
             @Override
             public void onCall(Fragment fragment, int requestCode, int resultCode, Intent data) {
+
                 if (resultCode == Activity.RESULT_OK && requestCode == currentActionBean.getRequestCode() || requestCode == EMPTY_REQUEST_CODE) {
                     if (mResultSuccess != null)
-                        mResultSuccess.onSuccess(currentActionBean.result(data, fragment.getActivity()), currentActionBean.getActionType());
+                        mResultSuccess.onSuccess(data, currentActionBean.getActionType());
                 } else {
                     if (mResultFail != null) {
                         mResultFail.onFail(currentActionBean.getActionType());
@@ -92,6 +94,7 @@ public class YcAction {
     }
 
     public interface ResultSuccess {
-        void onSuccess(String path, YcActionTypeEnum actionTypeEnum);
+        void onSuccess(Intent path, YcActionTypeEnum actionTypeEnum);
     }
+
 }

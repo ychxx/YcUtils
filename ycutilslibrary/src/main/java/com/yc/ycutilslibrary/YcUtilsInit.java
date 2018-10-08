@@ -1,6 +1,8 @@
 package com.yc.ycutilslibrary;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.IdRes;
 
 import com.yc.ycutilslibrary.common.YcLog;
@@ -13,7 +15,7 @@ import org.xutils.x;
  */
 
 public class YcUtilsInit {
-    public static Application mApplication = null;
+    private static Application mApplication = null;
 
     /**
      * 使用PrefHelper、下载必须先初始化
@@ -38,7 +40,18 @@ public class YcUtilsInit {
         }
         YcImgUtils.IMG_FAIL_RELOAD_NUM = num;
     }
-    public static void setLoadImgFail(@IdRes int imgIdRes){
+
+    public static void setLoadImgFail(@IdRes int imgIdRes) {
         YcImgUtils.IMG_FAIL_ID_RES = imgIdRes;
+    }
+    public static Application getApplication(){
+        return mApplication;
+    }
+    public static Resources getResources() {
+        if (mApplication == null) {
+            return Resources.getSystem();
+        } else {
+            return mApplication.getResources();
+        }
     }
 }

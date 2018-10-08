@@ -16,10 +16,10 @@ public enum YcPrefHelper {
     private SharedPreferences mPre;//SharedPreferences数据存储
 
     YcPrefHelper() {
-        if (YcUtilsInit.mApplication == null) {
+        if (YcUtilsInit.getApplication() == null) {
             Log.e("YcUtils", "请在Application的onCreate()里调用YcUtilsInit.init(application)进行初始化");
         } else {
-            mPre = YcUtilsInit.mApplication.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+            mPre = YcUtilsInit.getApplication().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         }
     }
 

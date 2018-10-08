@@ -21,11 +21,11 @@ import java.io.File;
 
 public class YcUtilVersion {
     public static int getVersionCode() {
-        if (YcUtilsInit.mApplication == null) {
+        if (YcUtilsInit.getApplication() == null) {
             YcLog.e("请先初始化，YcUtilsInit.init(Application)");
             return -1;
         }
-        return getVersionCode(YcUtilsInit.mApplication);
+        return getVersionCode(YcUtilsInit.getApplication());
     }
 
     /**
@@ -47,11 +47,11 @@ public class YcUtilVersion {
     }
 
     public static String getVersionName() {
-        if (YcUtilsInit.mApplication == null) {
+        if (YcUtilsInit.getApplication() == null) {
             YcLog.e("请先初始化，YcUtilsInit.init(Application)");
             return "";
         }
-        return getVersionName(YcUtilsInit.mApplication);
+        return getVersionName(YcUtilsInit.getApplication());
     }
 
     /**
@@ -73,11 +73,11 @@ public class YcUtilVersion {
     }
 
     public static String getPackageName() {
-        if (YcUtilsInit.mApplication == null) {
+        if (YcUtilsInit.getApplication() == null) {
             YcLog.e("请先初始化，YcUtilsInit.init(Application)");
             return "";
         }
-        return getPackageName(YcUtilsInit.mApplication);
+        return getPackageName(YcUtilsInit.getApplication());
     }
 
     /**

@@ -8,6 +8,8 @@ import com.yc.ycutilslibrary.action.YcActionTypeEnum;
 import com.yc.ycutilslibrary.action.YcActionUtils;
 import com.yc.ycutilslibrary.common.YcTransform;
 
+import java.util.Date;
+
 /**
  *
  */
@@ -27,7 +29,9 @@ public class YcActionSelectorBean extends YcActionBean {
     public void start(Fragment fragment) {
         YcActionUtils.openFileManager(fragment, openFileType, getActionType().getRequestCode());
     }
-
+    public Intent result(Intent data) {
+        return data;
+    }
     @Override
     public String result(Intent data, Context context) {
         return YcTransform.imgUriToAbsolutePath(context, data.getData());

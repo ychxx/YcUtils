@@ -1,7 +1,17 @@
 package com.yc.ycutilslibrary.common;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.yc.yclibrary.YcInit;
+import com.yc.ycutilslibrary.YcUtilsInit;
 
 /**
  *
@@ -27,5 +37,58 @@ public class YcUI {
 
         window.setAttributes(p);
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    /**
+     * 将dp值转换为px值
+     */
+    public static int dpToPx(float dp) {
+        return (int) (YcUtilsInit.getResources().getDisplayMetrics().density * dp + 0.5f);
+    }
+
+    /**
+     * 将px值转换为dp值
+     */
+    public static int pxToDp(float px) {
+        return (int) (px / YcUtilsInit.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    /**
+     * sp转px
+     */
+    public static int spToPx(float sp) {
+        return (int) (sp * YcUtilsInit.getResources().getDisplayMetrics().scaledDensity + 0.5f);
+    }
+
+    /**
+     * px转sp
+     */
+    public static int pxToSp(float px) {
+        return (int) (YcUtilsInit.getResources().getDisplayMetrics().scaledDensity / px + 0.5f);
+    }
+
+    /**
+     * 获取屏幕宽度 像素值
+     */
+    public static int getScreenWidth() {
+        return getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     * 获取屏幕高度 像素值
+     */
+    public static int getScreenHegith() {
+        return getDisplayMetrics().heightPixels;
+    }
+
+    public static DisplayMetrics getDisplayMetrics() {
+        return getDisplayMetrics(YcUtilsInit.getApplication());
+    }
+
+    public static DisplayMetrics getDisplayMetrics(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics;
     }
 }
