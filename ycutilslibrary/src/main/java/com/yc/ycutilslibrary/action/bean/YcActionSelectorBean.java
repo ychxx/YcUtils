@@ -4,11 +4,9 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 
-import com.yc.ycutilslibrary.action.YcActionTypeEnum;
+import com.yc.ycutilslibrary.constant.YcActionTypeEnum;
 import com.yc.ycutilslibrary.action.YcActionUtils;
 import com.yc.ycutilslibrary.common.YcTransform;
-
-import java.util.Date;
 
 /**
  *
@@ -27,22 +25,26 @@ public class YcActionSelectorBean extends YcActionBean {
 
     @Override
     public void start(Fragment fragment) {
-        YcActionUtils.openFileManager(fragment, openFileType, getActionType().getRequestCode());
+        YcActionUtils.openFileManager(fragment, openFileType, getActionType());
     }
+
     public Intent result(Intent data) {
         return data;
     }
+
     @Override
     public String result(Intent data, Context context) {
         return YcTransform.imgUriToAbsolutePath(context, data.getData());
     }
+
     @Override
-    public YcActionTypeEnum getActionType() {
+    @YcActionTypeEnum
+    public int getActionType() {
         return YcActionTypeEnum.SELECTOR;
     }
 
     @Override
     public int getRequestCode() {
-        return YcActionTypeEnum.SELECTOR.getRequestCode();
+        return YcActionTypeEnum.SELECTOR;
     }
 }

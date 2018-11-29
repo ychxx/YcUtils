@@ -94,6 +94,10 @@ public class YcUtilPermission {
         return this;
     }
 
+    public boolean isHasPermission(String permission) {
+        return new RxPermissions(mActivity.get()).isGranted(permission);
+    }
+
     public void start() {
         RxPermissions rxPermissions = new RxPermissions(mActivity.get());
         rxPermissions.requestEach(mRequestPermissions.toArray(new String[mRequestPermissions.size()]))

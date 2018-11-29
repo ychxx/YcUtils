@@ -9,12 +9,15 @@ import android.content.Intent;
 public class YcForResultBean {
     private int mResultCode;
     private Intent mData;
-
+    private boolean mIsSuccess;
     public YcForResultBean(int resultCode, Intent data) {
         this.mResultCode = resultCode;
         this.mData = data;
     }
-
+    public YcForResultBean(int resultCode, Intent data,boolean isSuccess) {
+        this.mResultCode = resultCode;
+        this.mData = data;
+    }
     public int getResultCode() {
         return mResultCode;
     }
@@ -29,5 +32,13 @@ public class YcForResultBean {
 
     public void setData(Intent mData) {
         this.mData = mData;
+    }
+
+    public boolean isSuccess() {
+        return mIsSuccess;
+    }
+
+    public void setIsSuccess(boolean isSuccess) {
+        this.mIsSuccess = isSuccess;
     }
 }

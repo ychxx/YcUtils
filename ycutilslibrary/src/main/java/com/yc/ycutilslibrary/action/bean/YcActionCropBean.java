@@ -4,7 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 
-import com.yc.ycutilslibrary.action.YcActionTypeEnum;
+import com.yc.ycutilslibrary.constant.YcActionTypeEnum;
 import com.yc.ycutilslibrary.action.YcActionUtils;
 
 /**
@@ -17,20 +17,20 @@ public class YcActionCropBean extends YcActionBean {
 
     @Override
     public void start(Fragment fragment) {
-        YcActionUtils.openCrop(fragment, imgPath, imgSavePath, getActionType().getRequestCode());
+        YcActionUtils.openCrop(fragment, imgPath, imgSavePath, getActionType());
     }
 
     @Override
     public String result(Intent data, Context context) {
         return imgSavePath;
     }
-    @Override
-    public YcActionTypeEnum getActionType() {
+    @Override @YcActionTypeEnum
+    public int getActionType() {
         return YcActionTypeEnum.CROP;
     }
 
     @Override
     public int getRequestCode() {
-        return YcActionTypeEnum.CROP.getRequestCode();
+        return YcActionTypeEnum.CROP;
     }
 }

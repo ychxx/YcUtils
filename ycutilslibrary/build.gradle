@@ -34,7 +34,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     /* mvp框架 */
-    implementation 'com.github.ychxx:YcMvp:1.0.3'
+    implementation 'com.github.ychxx:YcMvp:1.2.0'
     /* 动态权限 */
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'

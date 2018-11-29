@@ -1,21 +1,23 @@
 package com.yc.ycutilslibrary.file;
 
-import android.app.ProgressDialog;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
 
+import com.yc.ycutilslibrary.call.IUploadFileCall;
 import com.yc.ycutilslibrary.common.YcEmpty;
 import com.yc.ycutilslibrary.common.YcLog;
 import com.yc.ycutilslibrary.common.YcRandom;
 
 import org.xutils.common.Callback;
+
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 文件工具类
@@ -164,9 +166,16 @@ public class YcFileUtils {
         }
         return size;
     }
-    public static String getImgFileName(){
+
+    /**
+     * 生成一个含有随机数的文件名（PNG图片格式）
+     *
+     * @return
+     */
+    public static String newRandomImgFileName() {
         return Environment.getExternalStorageDirectory() + "/YcUtils/" + YcRandom.getNameImgOfPNG();
     }
+
     public static void downloadFile(String url, String savePath, Callback.ProgressCallback<File> callback) {
         if (YcEmpty.isEmpty(url)) {
             YcLog.e("下载地址为空");
@@ -178,4 +187,36 @@ public class YcFileUtils {
         x.http().get(requestParams, callback);
     }
 
+    /**
+     * 上传文件（未测试）
+     * @param params    参数
+     * @param callback  回调
+     */
+    public static void uploadFile(HashMap<String, String> params, final IUploadFileCall callback) {
+        RequestParams requestParams = new RequestParams();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            requestParams.addBodyParameter(entry.getKey(), entry.getValue());
+        }
+        x.http().post(requestParams, new Callback.CommonCallback<Object>() {
+            @Override
+            public void onSuccess(Object result) {
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(ex, isOnCallback);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                callback.onCancelled(cex);
+            }
+
+            @Override
+            public void onFinished() {
+                callback.onFinished();
+            }
+        });
+    }
 }

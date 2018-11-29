@@ -7,9 +7,9 @@ import android.content.Intent;
 import com.yc.ycutilslibrary.action.bean.YcActionBean;
 import com.yc.ycutilslibrary.action.bean.YcActionCameraBean;
 import com.yc.ycutilslibrary.action.bean.YcActionSelectorBean;
+import com.yc.ycutilslibrary.constant.YcActionTypeEnum;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,11 +90,11 @@ public class YcAction {
     }
 
     public interface ResultFail {
-        void onFail(YcActionTypeEnum actionTypeEnum);
+        void onFail(@YcActionTypeEnum int actionTypeEnum);
     }
 
     public interface ResultSuccess {
-        void onSuccess(Intent path, YcActionTypeEnum actionTypeEnum);
+        void onSuccess(Intent path, @YcActionTypeEnum int actionTypeEnum);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.yc.ycutilslibrary.phone;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +12,10 @@ import android.os.Build;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
 import com.yc.ycutilslibrary.YcUtilsInit;
 import com.yc.ycutilslibrary.common.YcLog;
+import com.yc.ycutilslibrary.permissions.YcUtilPermission;
 
 import java.io.File;
 
@@ -89,6 +93,7 @@ public class YcUtilVersion {
     public static String getPackageName(Context context) {
         return context.getPackageName();
     }
+
     /**
      * 安装apk
      *
@@ -96,11 +101,15 @@ public class YcUtilVersion {
      * @param file
      */
     public static void installApk(Context context, File file) {
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri data;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !YcUtilPermission.newInstance((Activity) context).isHasPermission(Manifest.permission.REQUEST_INSTALL_PACKAGES)) {
+            Logger.e("缺少 REQUEST_INSTALL_PACKAGES 权限无法安装Apk");
+        }
         // 判断版本大于等于7.0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            data = FileProvider.getUriForFile(context, getPackageName(context) +".fileprovider", file);
+            data = FileProvider.getUriForFile(context, getPackageName(context) + ".fileprovider", file);
             // 给目标应用一个临时授权
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
