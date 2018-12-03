@@ -1,17 +1,13 @@
 package com.yc.ycutils;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.yc.yclibrary.base.YcAppCompatActivity;
-import com.yc.ycutilslibrary.action.YcActionTypeEnum;
+import com.yc.ycutilslibrary.constant.YcActionTypeEnum;
 import com.yc.ycutilslibrary.action.YcAction;
-
-import java.io.File;
 
 import butterknife.OnClick;
 
@@ -45,7 +41,7 @@ public class SelectActivity extends YcAppCompatActivity {
             case R.id.selectAction:
                 YcAction action= YcAction.newInstance(getActivity());
                 action.newActionSelector().setOpenFileType("*/*");
-                action.setResultSuccess((Intent path, YcActionTypeEnum actionTypeEnum)->{
+                action.setResultSuccess((Intent path, @YcActionTypeEnum int actionTypeEnum)->{
 //                    Intent intent = new Intent();
 //                    ComponentName cn = new ComponentName("cn.wps.moffice_eng", "cn.wps.moffice.documentmanager.PreStartActivity2");
 //                    intent.setAction(Intent.ACTION_MAIN);

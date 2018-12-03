@@ -9,6 +9,10 @@ import android.widget.ImageView;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.yc.yclibrary.base.YcAppCompatActivity;
+import com.yc.ycutilslibrary.call.IUploadFileCall;
+import com.yc.ycutilslibrary.file.YcFileUtils;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,6 +49,28 @@ public class TestActivity extends YcAppCompatActivity {
                 mImageView1.setImageBitmap(b);
                 break;
             case R.id.test2Btn:
+                HashMap<String ,String> params = new HashMap<>();
+                YcFileUtils.uploadFile(params, new IUploadFileCall() {
+                    @Override
+                    public void onSuccess(Object result) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(Exception ex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
                 break;
             case R.id.test3Btn:
                 break;
