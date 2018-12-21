@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * 文件工具类
@@ -111,7 +112,13 @@ public class YcFileUtils {
     public static String fileNameToSuffix(String fileName) {
         if (YcEmpty.isEmpty(fileName))
             return null;
-        return fileName.substring(1, fileName.lastIndexOf("."));
+        int lastIndexOf = fileName.lastIndexOf(".");
+        if (lastIndexOf < 1) {
+            YcLog.e(fileName + "：没有后缀");
+            return "";
+        } else {
+            return fileName.substring(1, lastIndexOf);
+        }
     }
 
     /**
@@ -189,8 +196,9 @@ public class YcFileUtils {
 
     /**
      * 上传文件（未测试）
-     * @param params    参数
-     * @param callback  回调
+     *
+     * @param params   参数
+     * @param callback 回调
      */
     public static void uploadFile(HashMap<String, String> params, final IUploadFileCall callback) {
         RequestParams requestParams = new RequestParams();
