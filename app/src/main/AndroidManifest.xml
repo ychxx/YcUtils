@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestPermissionActivity">
+        <activity android:name=".test.html.TestHtmlActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
