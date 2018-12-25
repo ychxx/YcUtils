@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -16,7 +17,9 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.yc.ycutilslibrary.R;
 import com.yc.ycutilslibrary.common.YcEmpty;
 import com.yc.ycutilslibrary.common.YcLog;
@@ -46,15 +49,15 @@ public class YcImgUtils {
      */
     public static int IMG_FAIL_RELOAD_NUM = 3;
 
-    public static void loadNetImg(Context activity, String imgUrl, ImageView imageView) {
-        loadNetImg(activity, imgUrl, imageView, 0);
+    public static void loadNetImg(Context context, String imgUrl, ImageView imageView) {
+        loadNetImg(context, imgUrl, imageView, 0);
     }
 
-    public static void loadNetImg(final Context activity, final String imgUrl, final ImageView imageView, final int loadNum) {
-        if (activity == null || YcEmpty.isEmpty(imgUrl) || imageView == null) {
+    public static void loadNetImg(final Context context, final String imgUrl, final ImageView imageView, final int loadNum) {
+        if (context == null || YcEmpty.isEmpty(imgUrl) || imageView == null) {
             return;
         }
-        GlideApp.with(activity)
+        GlideApp.with(context)
 //                .asGif()//指定加载类型
 //                .asBitmap()//指定加载类型   git图会变成第一帧静态图
 //                .asDrawable()//指定加载类型
@@ -74,7 +77,7 @@ public class YcImgUtils {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         if (loadNum < IMG_FAIL_RELOAD_NUM)
-                            loadNetImg(activity, imgUrl, imageView, loadNum + 1);
+                            loadNetImg(context, imgUrl, imageView, loadNum + 1);
                         return false;
                     }
 
@@ -157,4 +160,19 @@ public class YcImgUtils {
         return inSampleSize;
     }
 
+    public interface ImgLoadCall {
+        void call(Bitmap resource);
+    }
+
+    public static void loadNetImg(Context context, String imgUrl, final ImgLoadCall imgLoadCall) {
+        GlideApp.with(context)
+                .asBitmap()
+                .load(imgUrl)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        imgLoadCall.call(resource);
+                    }
+                });
+    }
 }

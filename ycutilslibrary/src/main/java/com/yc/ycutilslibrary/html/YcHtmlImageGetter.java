@@ -1,4 +1,4 @@
-package com.yc.ycutils.test.html;
+package com.yc.ycutilslibrary.html;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,14 +11,16 @@ import android.widget.TextView;
 import com.yc.ycutilslibrary.file.YcImgUtils;
 
 /**
- *
+ *  用于解决TextView展示Html时图片不显示问题
+ *  eg：textView.setText(Html.fromHtml(htmlData, new YcHtmlImageGetter(textView, context), null));
+ *  htmlData：要显示html字符串
  */
 
-public class MImageGetter implements Html.ImageGetter {
+public class YcHtmlImageGetter implements Html.ImageGetter {
     private Context mContext;
     private TextView textView;
 
-    public MImageGetter(TextView text, Context context) {
+    public YcHtmlImageGetter(TextView text, Context context) {
         this.mContext = context;
         this.textView = text;
     }
@@ -37,5 +39,4 @@ public class MImageGetter implements Html.ImageGetter {
         });
         return drawable;
     }
-
 }
