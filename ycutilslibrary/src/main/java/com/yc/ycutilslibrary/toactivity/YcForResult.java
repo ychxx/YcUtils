@@ -11,7 +11,6 @@ import io.reactivex.Observable;
 
 public class YcForResult {
     private YcForResultFragment mFragment;
-    private Intent intent;
     public YcForResult(Activity activity) {
         mFragment = YcForResultFragment.getFragment(activity);
     }

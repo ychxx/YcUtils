@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yc.ycutils">
+
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -25,19 +26,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".test.html.TestHtmlActivity">
+        <activity android:name=".test.vr_img.VrImgActivity">
+
+        </activity>
+        <activity android:name=".ijkplay.PlayVideoActivity" />
+        <!--<activity-->
+        <!--android:name=".TestPermissionActivity"-->
+        <!--android:launchMode="singleTop" />-->
+        <activity android:name=".test.adapter.TestRecycleViewAdapterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ijkplay.PlayVideoActivity" />
-        <!--<activity-->
-            <!--android:name=".TestPermissionActivity"-->
-            <!--android:launchMode="singleTop" />-->
         <activity android:name=".TestActivity" />
-        <activity android:name=".TestWidgetActivity"/>
+        <activity android:name=".TestWidgetActivity" />
     </application>
 
 </manifest>

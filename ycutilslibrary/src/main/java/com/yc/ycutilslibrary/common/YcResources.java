@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.RequiresApi;
 
 import com.yc.yclibrary.YcInit;
@@ -28,6 +29,7 @@ public class YcResources {
      * @param resId 颜色资源id
      * @return 颜色值
      */
+    @ColorInt
     public static int getColor(int resId) {
         return getResources().getColor(resId);
     }
@@ -38,6 +40,7 @@ public class YcResources {
      * @param color 十六进制
      * @return
      */
+    @ColorInt
     public static int getColor(String color) {
         return Color.parseColor(color);
     }
@@ -45,11 +48,12 @@ public class YcResources {
     /**
      * 获取Drawable
      *
-     * @param resTd Drawable资源id
+     * @param resId Drawable资源id
      * @return Drawable
      */
-    public static Drawable getDrawable(int resTd) {
-        return getResources().getDrawable(resTd);
+    @Deprecated
+    public static Drawable getDrawable(int resId) {
+        return getResources().getDrawable(resId);
     }
 
     /**

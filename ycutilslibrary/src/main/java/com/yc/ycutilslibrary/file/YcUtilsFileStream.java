@@ -9,11 +9,7 @@ import java.io.FileOutputStream;
  * 用于文件流的工具类
  */
 
-public class YcFileStreamUtils {
-    /**
-     * SD卡根目录地址
-     */
-    public final static String SD_PATH = Environment.getExternalStorageDirectory().getPath();
+public class YcUtilsFileStream {
 
     /**
      * 文件写入

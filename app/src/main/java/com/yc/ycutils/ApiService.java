@@ -1,12 +1,6 @@
 package com.yc.ycutils;
-
-import com.yc.yclibrary.YcInit;
-import com.yc.ycutilslibrary.YcUtilsInit;
-
 import io.reactivex.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 
 /**
  *

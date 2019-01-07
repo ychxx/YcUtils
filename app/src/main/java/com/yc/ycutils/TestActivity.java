@@ -11,11 +11,15 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import com.yc.yclibrary.base.YcAppCompatActivity;
 import com.yc.ycutilslibrary.call.IUploadFileCall;
 import com.yc.ycutilslibrary.file.YcFileUtils;
+import com.yc.ycutilslibrary.toactivity.YcForResult;
+import com.yc.ycutilslibrary.toactivity.YcForResultBean;
 
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  *
@@ -49,6 +53,29 @@ public class TestActivity extends YcAppCompatActivity {
                 mImageView1.setImageBitmap(b);
                 break;
             case R.id.test2Btn:
+                YcForResult forResult = new YcForResult(getActivity());
+                forResult.start(new Intent())
+                        .subscribe(new Observer<YcForResultBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(YcForResultBean ycForResultBean) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
                 HashMap<String ,String> params = new HashMap<>();
                 YcFileUtils.uploadFile(params, new IUploadFileCall() {
                     @Override

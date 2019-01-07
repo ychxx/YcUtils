@@ -12,12 +12,13 @@ import com.yc.yclibrary.net.NetTransformer;
 import com.yc.yclibrary.net.RetrofitUtils;
 import com.yc.ycutils.ApiService;
 import com.yc.ycutils.R;
+import com.yc.ycutilslibrary.html.YcHtml;
 import com.yc.ycutilslibrary.html.YcHtmlImageGetter;
 
 import butterknife.BindView;
 
 /**
- *
+ *  用textView显示html
  */
 
 public class TestHtmlActivity extends YcAppCompatActivity {
@@ -31,7 +32,6 @@ public class TestHtmlActivity extends YcAppCompatActivity {
 
     @Override
     protected void initView(Bundle bundle) {
-
         RetrofitUtils.Instance
                 .getApiService(ApiService.class)
                 .getHtml()
@@ -41,6 +41,7 @@ public class TestHtmlActivity extends YcAppCompatActivity {
                     public void onSuccess(String s) {
                         Gson gson = new Gson();
                         GetHtmlJson getHtmlJson = gson.fromJson(s, GetHtmlJson.class);
+                        YcHtml.showTextView(testHtmlTv,getActivity(),getHtmlJson.getData().getText());
                         testHtmlTv.setText(Html.fromHtml(getHtmlJson.getData().getText(), new YcHtmlImageGetter(testHtmlTv, getActivity()), null));
                     }
 

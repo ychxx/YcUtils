@@ -27,6 +27,10 @@ import java.util.logging.Logger;
 
 public class YcFileUtils {
     /**
+     * SD卡根目录地址
+     */
+    public final static String SD_PATH = Environment.getExternalStorageDirectory().getPath();
+    /**
      * 创建一个文件
      *
      * @param filePath 文件地址（包含后缀）
@@ -183,6 +187,12 @@ public class YcFileUtils {
         return Environment.getExternalStorageDirectory() + "/YcUtils/" + YcRandom.getNameImgOfPNG();
     }
 
+    /**
+     * 下载文件
+     * @param url
+     * @param savePath
+     * @param callback
+     */
     public static void downloadFile(String url, String savePath, Callback.ProgressCallback<File> callback) {
         if (YcEmpty.isEmpty(url)) {
             YcLog.e("下载地址为空");
