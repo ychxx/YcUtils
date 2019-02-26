@@ -53,7 +53,13 @@ public abstract class YcRecycleViewAdapter extends RecyclerView.Adapter<BaseView
             Observable.zip(Observable.just(position), Observable.just(getItem(position)), mBiFunction).subscribe();
         }
     }
-
+//    public <T> T test(T t){
+//        return t;
+//    }
+//    public <T> T test(Class<T> t) throws IllegalAccessException, InstantiationException {
+//        T newInstan = t.newInstance();
+//        return newInstan;
+//    }
     /**
      * 单击Item回调
      *

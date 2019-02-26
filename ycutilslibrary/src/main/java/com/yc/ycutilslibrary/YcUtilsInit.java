@@ -31,8 +31,6 @@ public class YcUtilsInit {
 
     /**
      * 设置加载网络图片时失败重新加载的次数
-     *
-     * @param num
      */
     public static void setReloadImgNum(int num) {
         if (num < 0) {
@@ -40,9 +38,17 @@ public class YcUtilsInit {
         }
         YcImgUtils.IMG_FAIL_RELOAD_NUM = num;
     }
-
-    public static void setLoadImgFail(@IdRes int imgIdRes) {
+    /**
+     * 设置加载网络图片失败时显示的图片
+     */
+    public static void setLoadImgDefaultFail(@IdRes int imgIdRes) {
         YcImgUtils.IMG_FAIL_ID_RES = imgIdRes;
+    }
+    /**
+     * 设置加载网络图片时显示的图片
+     */
+    public static void setLoadImgDefaultLoading(@IdRes int imgIdRes) {
+        YcImgUtils.IMG_LOADING_ID_RES = imgIdRes;
     }
     public static Application getApplication(){
         return mApplication;

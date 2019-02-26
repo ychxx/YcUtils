@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.text.Html;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.yc.ycutilslibrary.file.YcImgUtils;
@@ -37,6 +38,7 @@ public class YcHtmlImageGetter implements Html.ImageGetter {
                 textView.setText(textView.getText());
             }
         });
+
         return drawable;
     }
 }
