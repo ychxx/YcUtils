@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -25,9 +26,11 @@ import java.util.List;
  */
 
 public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
-    private Context context;
+    private Context mContext;
     private LinearLayout mTabMenuLl;//tab栏
     private FrameLayout mContainerFl; //底部容器，包含下拉列表和遮罩
+    private FrameLayout mListLayoutFl; //用于存放列表布局
+    private View mListLayoutView;//用于获取列表布局（或绑定控件）
     private FrameLayout mPopupMenuFl; //弹出菜单父布局
     private View mMaskView; //遮罩半透明View，点击可关闭DropDownMenu
     private boolean mIsShowMenu = false;//是否显示下拉框
@@ -39,7 +42,6 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
     private int textUnselectedColor = 0xff111111;   //tab未选中颜色
 
     private int menuTextSize = 14;   //tab字体大小
-
 
 
     public DropDownMenuView(Context context) {
@@ -58,6 +60,7 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
     }
 
     private void initView(Context context) {
+        mContext = context;
         setOrientation(VERTICAL);
 
         //添加tab栏
@@ -75,6 +78,9 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
         mContainerFl = new FrameLayout(context);
         mContainerFl.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
+        mListLayoutFl = new FrameLayout(context);
+        mListLayoutFl.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        mContainerFl.addView(mListLayoutFl, 0);
         //底部容器里添加遮罩
         mMaskView = new View(getContext());
         mMaskView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
@@ -88,13 +94,13 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
             }
         });
         mMaskView.setVisibility(GONE);
-        mContainerFl.addView(mMaskView, 0);
+        mContainerFl.addView(mMaskView, 1);
 
         //底部容器里添加下拉框
         mPopupMenuFl = new FrameLayout(getContext());
         mPopupMenuFl.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mPopupMenuFl.setVisibility(GONE);
-        mContainerFl.addView(mPopupMenuFl,1);
+        mContainerFl.addView(mPopupMenuFl, 2);
         addView(mContainerFl, 2);
     }
 
@@ -125,6 +131,7 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
             mTabMenuLl.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             mTabMenuLl.setDividerDrawable(getResources().getDrawable(R.drawable.divider_line));
         }
+        mDropDownNum = tabAllView.size();
     }
 
     private View createTabView(String content) {
@@ -139,6 +146,17 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
         tab.setText(content);
         tab.setPadding(YcUI.pxToDp(5), YcUI.pxToDp(12), YcUI.pxToDp(5), YcUI.pxToDp(12));
         return tab;
+    }
+
+
+
+    public void setListLayoutView(int reId) {
+        mListLayoutView = LayoutInflater.from(mContext).inflate(reId, null);
+        mListLayoutFl.addView(mListLayoutView);
+    }
+
+    public View getListLayoutView() {
+        return mListLayoutView;
     }
 
     /**
@@ -156,7 +174,7 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
 
     @Override
     public void closeMenu() {
-        if(mIsShowMenu){
+        if (mIsShowMenu) {
             TextView tab = (TextView) mTabMenuLl.getChildAt(mCurrentShowIndex);
 //            tab.setCompoundDrawablesWithIntrinsicBounds(null, null, getArrowDrawable(0), null);
             mPopupMenuFl.setVisibility(View.GONE);
@@ -170,9 +188,9 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
 
     @Override
     public void showMenu(int index) {
-        if(mCurrentShowIndex==index){
+        if (mCurrentShowIndex == index) {
             closeMenu();
-        }else {
+        } else {
             mPopupMenuFl.setVisibility(View.VISIBLE);
             mPopupMenuFl.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_menu_in));
             mMaskView.setVisibility(VISIBLE);
@@ -185,11 +203,12 @@ public class DropDownMenuView extends LinearLayout implements IDropDownMenu {
 
     /**
      * 生成箭头
+     *
      * @param rotation
      * @return
      */
-    private Drawable getArrowDrawable(int rotation){
-        PathsDrawable arrowDrawable=new PathsDrawable();
+    private Drawable getArrowDrawable(int rotation) {
+        PathsDrawable arrowDrawable = new PathsDrawable();
         arrowDrawable.parserPaths("M20,12l-1.41,-1.41L13,16.17V4h-2v12.17l-5.58,-5.59L4,12l8,8 8,-8z");
         return arrowDrawable;
     }
