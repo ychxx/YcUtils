@@ -36,6 +36,10 @@ public class TestDropDownMenuActivity extends YcAppCompatActivity {
         textView.setText(msg);
         return textView;
     }
+    String url = "http://10.1.3.189:8080/app/android/UploadUserImage.invoke";
+    private void testUploadImg(){
+
+    }
     @OnClick({R.id.but1, R.id.but2})
     public void onViewClicked(View view) {
         switch (view.getId()) {

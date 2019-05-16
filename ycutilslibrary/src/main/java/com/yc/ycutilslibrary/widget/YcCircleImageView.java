@@ -28,7 +28,7 @@ import com.yc.ycutilslibrary.file.YcImgUtils;
  *
  */
 
-public class CircleImageView extends ImageView {
+public class YcCircleImageView extends ImageView {
 
     private static final ImageView.ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -67,16 +67,16 @@ public class CircleImageView extends ImageView {
     private boolean mBorderOverlay;
     private boolean mDisableCircularTransformation;
 
-    public CircleImageView(Context context) {
+    public YcCircleImageView(Context context) {
         super(context);
         init();
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public YcCircleImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public YcCircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleCoolImageView, defStyle, 0);

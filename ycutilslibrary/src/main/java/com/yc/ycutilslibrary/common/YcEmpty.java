@@ -19,12 +19,7 @@ public class YcEmpty {
     public static boolean isEmpty(String data) {
         return data == null || data.length() == 0;
     }
-    private static void aa(){
-        List<String> a = new ArrayList<>();
-        if(isEmpty(a)){
 
-        }
-    }
     /**
      * 是否为空
      *

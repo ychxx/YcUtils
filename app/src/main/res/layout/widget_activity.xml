@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.yc.ycutilslibrary.widget.CircleImageView
+    <com.yc.ycutilslibrary.widget.YcCircleImageView
         android:id="@+id/widgetCircleIv"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/img_test" />
-    <com.yc.ycutilslibrary.widget.CircleImageView
+    <com.yc.ycutilslibrary.widget.YcCircleImageView
         android:layout_width="100dp"
         android:id="@+id/widgetCircleNetIv"
         android:layout_height="100dp" />
