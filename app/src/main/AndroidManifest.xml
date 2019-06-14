@@ -42,6 +42,9 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".TestWidgetActivity" />
         <activity android:name=".test.TestDropDownMenuActivity">
+
+        </activity>
+        <activity android:name=".TestActionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

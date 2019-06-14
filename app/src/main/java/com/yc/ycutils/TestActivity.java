@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  *
@@ -55,26 +56,8 @@ public class TestActivity extends YcAppCompatActivity {
             case R.id.test2Btn:
                 YcForResult forResult = new YcForResult(getActivity());
                 forResult.start(new Intent())
-                        .subscribe(new Observer<YcForResultBean>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-
-                            }
-
-                            @Override
-                            public void onNext(YcForResultBean ycForResultBean) {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
+                        .subscribe(ycForResultBean -> {
+                            Intent data = ycForResultBean.getData();
                         });
                 HashMap<String ,String> params = new HashMap<>();
                 YcFileUtils.uploadFile(params, new IUploadFileCall() {

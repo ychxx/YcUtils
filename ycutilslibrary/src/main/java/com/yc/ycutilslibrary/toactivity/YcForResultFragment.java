@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +19,11 @@ import io.reactivex.subjects.PublishSubject;
 
 public class YcForResultFragment extends Fragment {
     private static final String TAG_FRAGMENT = "YcForResultFragment";//Fragment的标示
-    private Map<Integer, PublishSubject<YcForResultBean>> mSubjects = new HashMap<>();
+    private SparseArray<PublishSubject<YcForResultBean>> mSubjects = new SparseArray<>();
 
     public YcForResultFragment() {
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +55,12 @@ public class YcForResultFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        PublishSubject<YcForResultBean> subject = mSubjects.remove(requestCode);
+//        PublishSubject<YcForResultBean> subject = mSubjects.remove(requestCode);
+        PublishSubject<YcForResultBean> subject = mSubjects.get(requestCode);
         if (subject != null) {
             subject.onNext(new YcForResultBean(resultCode, data));
             subject.onComplete();
         }
+        mSubjects.remove(requestCode);
     }
 }

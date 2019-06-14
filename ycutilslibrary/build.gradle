@@ -50,13 +50,18 @@ dependencies {
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     /* 图片裁剪 android-image-cropper使用的版本是 27.0.2*/
+//    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation('com.theartofdev.edmodo:android-image-cropper:2.7.0'){
         exclude group: "com.android.support"
     }
+    implementation 'com.android.support:exifinterface:26.+'
+
+    implementation 'com.contrarywind:Android-PickerView:3.2.7'
     /* 下载 */
     implementation 'org.xutils:xutils:3.5.0'
     /* 一个适用于ListView/GridView/RecyclerView的Adapter库,简化大量重复代码,支持多种布局,可自定义图片加载的实现*/
     implementation 'com.classic.adapter:commonadapter:2.0'
     /* vr全景图 */
     implementation 'com.google.vr:sdk-panowidget:1.80.0'
+
 }

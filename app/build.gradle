@@ -42,6 +42,7 @@ dependencies {
     implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'
     implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
     /* 图片裁剪 android-image-cropper使用的版本是 27.0.2*/
+//    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation('com.theartofdev.edmodo:android-image-cropper:2.7.0'){
         exclude group: "com.android.support"
     }

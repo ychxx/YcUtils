@@ -55,20 +55,20 @@ public class TestActionActivity extends YcAppCompatActivity {
             case R.id.test1Btn:
                 YcAction action = new YcAction(getActivity());
                 String imgPath = getImgFileName();
-                String imgSavePath =Environment.getExternalStorageDirectory() + "/YcUtils/"+"test.png";
+                String imgSavePath = Environment.getExternalStorageDirectory() + "/YcUtils/" + "test.png";
                 action.startCamera(imgPath)
                         .doOnNext(ycForResultBean -> {
                             if (ycForResultBean.getResultCode() == Activity.RESULT_OK) {
                                 Log.e("asd", "拍照成功");
-                                YcImgUtils.loadLocalImg(getActivity(),imgPath,test1Iv);
+                                YcImgUtils.loadLocalImg(getActivity(), imgPath, test1Iv);
                             } else {
                                 Log.e("asd", "拍照失败");
                             }
-                        }).flatMap(ycForResultBean -> new YcAction(getActivity()).startCrop(imgPath,imgSavePath))
+                        }).flatMap(ycForResultBean -> new YcAction(getActivity()).startCrop(imgPath, imgSavePath))
                         .subscribe(ycForResultBean -> {
-                            if (ycForResultBean.getResultCode() == YcAction.CODE_RESULT_FAIL) {
+                            if (ycForResultBean.getResultCode() == Activity.RESULT_OK) {
                                 Log.e("asd", "裁剪成功");
-                                YcImgUtils.loadLocalImg(getActivity(),imgSavePath,test1Iv);
+                                YcImgUtils.loadLocalImg(getActivity(), imgSavePath, test1Iv);
                             } else {
                                 Log.e("asd", "裁剪失败");
                             }
@@ -77,11 +77,11 @@ public class TestActionActivity extends YcAppCompatActivity {
             case R.id.test2Btn:
                 Intent intent = new Intent(getActivity(), YcCropActivity.class);
                 intent.putExtra("img_path", "/storage/emulated/0/YcUtils/1539157946904_259.png");
-                intent.putExtra( "img_path_save_key", Environment.getExternalStorageDirectory() + "/YcUtils/"+"test.png");
+                intent.putExtra("img_path_save_key", Environment.getExternalStorageDirectory() + "/YcUtils/" + "test.png");
                 startActivity(intent);
                 break;
             case R.id.test3Btn:
-                YcImgUtils.loadLocalImg(getActivity(),Environment.getExternalStorageDirectory() +"/YcUtils/1539157946904_259.png",test1Iv);
+                YcImgUtils.loadLocalImg(getActivity(), Environment.getExternalStorageDirectory() + "/YcUtils/1539157946904_259.png", test1Iv);
                 break;
         }
     }

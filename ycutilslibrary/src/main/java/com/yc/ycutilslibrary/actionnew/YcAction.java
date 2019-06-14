@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.widget.Toast;
 
 import com.yc.ycutilslibrary.action.YcCropActivity;
 import com.yc.ycutilslibrary.common.YcLog;
@@ -22,8 +20,6 @@ import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.subjects.PublishSubject;
 
 /**
  *
@@ -32,9 +28,10 @@ import io.reactivex.subjects.PublishSubject;
 public class YcAction {
     private YcForResultFragment mYcForResultFragment = null;
     public final static int CODE_RESULT_FAIL = -233;
-    Activity mActivit;
+    public final static int CODE_RESULT_SUCCESS = 233;
+    private Activity mActivity;
     public YcAction(Activity activity) {
-        mActivit = activity;
+        mActivity = activity;
         mYcForResultFragment = YcForResultFragment.getFragment(activity);
     }
 
@@ -60,8 +57,8 @@ public class YcAction {
         return resultFail();
     }
     public Observable<YcForResultBean> startCrop(String imgPath,String imgSavePath) {
-        YcForResult ycForResult = new YcForResult(mActivit);
-        Intent intent = new Intent(mActivit, YcCropActivity.class);
+        YcForResult ycForResult = new YcForResult(mActivity);
+        Intent intent = new Intent(mActivity, YcCropActivity.class);
         intent.putExtra("img_path", imgPath);
         intent.putExtra( "img_path_save_key", imgSavePath);
         return ycForResult.start(intent);

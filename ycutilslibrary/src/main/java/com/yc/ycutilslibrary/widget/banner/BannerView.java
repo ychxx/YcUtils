@@ -60,7 +60,7 @@ public class BannerView extends RelativeLayout {
 
     public BannerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutInflater.from(getContext()).inflate(R.layout.widget_banner, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.yc_widget_banner, this, true);
         viewPager = (ViewPager) findViewById(R.id.layout_banner_viewpager);
         points = (LinearLayout) findViewById(R.id.layout_banner_points_group);
     }
