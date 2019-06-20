@@ -17,7 +17,11 @@
     <uses-permission android:name="android.permission.ADD_VOICEMAIL" />
     <uses-permission android:name="android.permission.USE_SIP" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
-
+    <!-- 蓝牙权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -45,6 +49,9 @@
 
         </activity>
         <activity android:name=".TestActionActivity">
+
+        </activity>
+        <activity android:name=".TestBluetoothActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

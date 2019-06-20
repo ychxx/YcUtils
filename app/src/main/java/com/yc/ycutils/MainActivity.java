@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //                @Override
 //                public void fileCall(int resultCode, Intent data) {
 //                    if (resultCode == Activity.RESULT_OK) {
-//                        Uri uri = data.getData();//得到uri，后面就是将uri转化成file的过程。
+//                        Uri uri = data.getAllBluetoothDevices();//得到uri，后面就是将uri转化成file的过程。
 //                    } else {
 //                        Log.e("asd", "打开文件失败");
 //                    }
