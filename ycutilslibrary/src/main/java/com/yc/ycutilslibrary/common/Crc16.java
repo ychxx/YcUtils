@@ -1,6 +1,10 @@
 package com.yc.ycutilslibrary.common;
 
+import android.net.rtp.RtpStream;
+
 import org.xutils.db.annotation.Table;
+
+import java.util.List;
 
 /**
  * crc16检验
@@ -26,21 +30,89 @@ public class Crc16 {
             0x8801, 0x48C0, 0x4980, 0x8941, 0x4B00, 0x8BC1, 0x8A81, 0x4A40, 0x4E00, 0x8EC1, 0x8F81, 0x4F40, 0x8D01, 0x4DC0, 0x4C80, 0x8C41,//224--239
             0x4400, 0x84C1, 0x8581, 0x4540, 0x8701, 0x47C0, 0x4680, 0x8641, 0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040}; //240--256};
 
-    public boolean crc16(int[] data, int[] checkCode) {
+    public static boolean crc16(int[] data, int[] checkCode) {
         int temp;
         int wCrcWord = 0xFFFF;
         int length = data.length;
-        StringBuilder checkeCodeData = new StringBuilder();
+        int checkCodeData = 0x0000;
         for (int check : checkCode) {
-            checkeCodeData.append(Integer.toHexString(check));
+            checkCodeData = checkCodeData << 8;
+            checkCodeData = checkCodeData ^ check;
         }
         for (int i = 0; i < length; i++) {
             temp = 0xff & (data[i] ^ wCrcWord);
             wCrcWord = wCrcWord >> 8;
             wCrcWord = wCrcWord ^ CRC_TABLE[temp];
         }
-        String temps = Integer.toHexString(wCrcWord);
-        return temps.equalsIgnoreCase(checkeCodeData.toString());
+        YcLog.e(wCrcWord + " " + checkCodeData);
+        YcLog.e(Integer.toHexString(wCrcWord) + " " + Integer.toHexString(checkCodeData));
+        return wCrcWord == checkCodeData;
     }
 
+    /**
+     * 检测接收到的蓝牙数据是否没问题
+     *
+     * @param data             接收到的蓝牙数据
+     * @param checkCode        crc检验码
+     * @param isComplementCode 蓝牙数据是否是补码
+     */
+    public static boolean crc16(int[] data, int checkCode, boolean isComplementCode) {
+        int temp;
+        int wCrcWord = 0xFFFF;
+        int length = data.length;
+//        int checkCodeData = 0x0000;
+//        checkCodeData = checkCode1 << 8 ^ checkCode2;
+        int checkCodeData = checkCode;
+        for (int i = 0; i < length; i++) {
+            if (isComplementCode) {
+                data[i] = data[i] & 0xFF;
+            }
+            temp = 0xff & (data[i] ^ wCrcWord);
+            wCrcWord = wCrcWord >> 8;
+            wCrcWord = wCrcWord ^ CRC_TABLE[temp];
+        }
+        YcLog.e(wCrcWord + " " + checkCodeData);
+        YcLog.e(Integer.toHexString(wCrcWord) + " " + Integer.toHexString(checkCodeData));
+        return wCrcWord == checkCodeData;
+    }
+
+    public static boolean crc16(byte[] data, int checkCode, boolean isComplementCode) {
+        int temp;
+        int wCrcWord = 0xFFFF;
+        int length = data.length;
+        for (int i = 0; i < length; i++) {
+            int realData;
+            if (isComplementCode) {
+                realData = data[i] & 0xFF;
+            } else {
+                realData = data[i];
+            }
+            temp = 0xff & (realData ^ wCrcWord);
+            wCrcWord = wCrcWord >> 8;
+            wCrcWord = wCrcWord ^ CRC_TABLE[temp];
+        }
+        YcLog.e(wCrcWord + " " + checkCode);
+        YcLog.e(Integer.toHexString(wCrcWord) + " " + Integer.toHexString(checkCode));
+        return wCrcWord == checkCode;
+    }
+
+    public static boolean crc16(List<Integer> data, int checkCode, boolean isComplementCode) {
+        int temp;
+        int wCrcWord = 0xFFFF;
+        int length = data.size();
+        for (int i = 0; i < length; i++) {
+            int realData;
+            if (isComplementCode) {
+                realData = data.get(i) & 0xFF;
+            } else {
+                realData = data.get(i);
+            }
+            temp = 0xff & (realData ^ wCrcWord);
+            wCrcWord = wCrcWord >> 8;
+            wCrcWord = wCrcWord ^ CRC_TABLE[temp];
+        }
+        YcLog.e(wCrcWord + " " + checkCode);
+        YcLog.e(Integer.toHexString(wCrcWord) + " " + Integer.toHexString(checkCode));
+        return wCrcWord == checkCode;
+    }
 }

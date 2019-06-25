@@ -16,4 +16,8 @@ public class YcLog {
     public static void e(String msg) {
         Log.e(TAG, msg);
     }
+
+    public static void e(String tag, String msg) {
+        Log.e(tag, msg);
+    }
 }

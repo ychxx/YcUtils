@@ -1,25 +1,30 @@
 package com.yc.ycutilslibrary.exception;
 
 /**
- *  基础异常类
+ * 基础异常类
  */
 
 public class YcException extends Exception {
-    private String msg = "";
+    private int code = -1;
 
     public YcException() {
         this("");
     }
 
     public YcException(String msg) {
-        this.msg = msg;
+        super(msg);
     }
 
-    public String getMsg() {
-        return msg;
+    public YcException(String msg, int code) {
+        super(msg);
+        this.code = code;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

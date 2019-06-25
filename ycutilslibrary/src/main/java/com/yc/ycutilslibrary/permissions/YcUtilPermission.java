@@ -1,11 +1,13 @@
 package com.yc.ycutilslibrary.permissions;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yc.ycutilslibrary.exception.YcBltException;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class YcUtilPermission {
      * 存储卡权限
      */
     public static final String[] PERMISSION_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    public static final String[] PERMISSION_BLT = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
     private YcUtilPermission() {
     }
@@ -94,13 +97,26 @@ public class YcUtilPermission {
         return this;
     }
 
+    /**
+     * 当有一个权限，没有时返回false
+     */
+    public boolean isHasPermission(String[] permissions) {
+        for (String p : permissions) {
+            if (!isHasPermission(p)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean isHasPermission(String permission) {
         return new RxPermissions(mActivity.get()).isGranted(permission);
     }
 
+    @SuppressLint("CheckResult")
     public void start() {
         RxPermissions rxPermissions = new RxPermissions(mActivity.get());
-        rxPermissions.requestEach(mRequestPermissions.toArray(new String[mRequestPermissions.size()]))
+        rxPermissions.requestEach(mRequestPermissions.toArray(new String[0]))
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
@@ -135,7 +151,7 @@ public class YcUtilPermission {
     }
 
     public interface SuccessCall {
-        void onCall();
+        void onCall() throws YcBltException;
     }
 
     public interface FailCall {

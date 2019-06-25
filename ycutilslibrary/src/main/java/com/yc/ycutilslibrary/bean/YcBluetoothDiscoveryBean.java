@@ -2,34 +2,35 @@ package com.yc.ycutilslibrary.bean;
 
 import android.bluetooth.BluetoothDevice;
 
-import com.yc.ycutilslibrary.constant.YcBluetoothFoundStateEnum;
+import com.yc.ycutilslibrary.constant.YcBluetoothDiscoveryStateEnum;
 
 import java.util.HashSet;
 
 /**
  * 蓝牙搜索bean
  */
-public class YcBluetoothFoundBean {
-    private @YcBluetoothFoundStateEnum
+public class YcBluetoothDiscoveryBean {
+    private @YcBluetoothDiscoveryStateEnum
     int mState;
     private HashSet<BluetoothDevice> mAllBluetoothDevices;
     private BluetoothDevice mBluetoothDevice;
 
-    public YcBluetoothFoundBean(int state) {
+    public YcBluetoothDiscoveryBean(int state) {
         this.mState = state;
     }
 
-    public YcBluetoothFoundBean(int state, HashSet<BluetoothDevice> bluetoothDevices) {
+    public YcBluetoothDiscoveryBean(int state, HashSet<BluetoothDevice> bluetoothDevices) {
         this.mState = state;
         this.mAllBluetoothDevices = bluetoothDevices;
     }
 
-    public YcBluetoothFoundBean(int state, BluetoothDevice bluetoothDevice) {
+    public YcBluetoothDiscoveryBean(int state, BluetoothDevice bluetoothDevice) {
         this.mState = state;
         this.mBluetoothDevice = bluetoothDevice;
     }
 
-    public @YcBluetoothFoundStateEnum int getState() {
+    public @YcBluetoothDiscoveryStateEnum
+    int getState() {
         return mState;
     }
     public HashSet<BluetoothDevice> getAllBluetoothDevices() {
