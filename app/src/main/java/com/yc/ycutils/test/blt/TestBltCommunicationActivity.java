@@ -114,7 +114,10 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
                                                 int x = getRealData(integers.get(18), integers.get(19), integers.get(20), integers.get(21));
                                                 textView2.setText("X轴倾角数据：" + x / 10000.0);
                                                 int y = getRealData(integers.get(22), integers.get(23), integers.get(24), integers.get(25));
-                                                textView3.setText("y轴倾角数据：" + y / 10000.0);
+                                                textView3.setText("Y轴倾角数据：" + y / 10000.0);
+                                                textView4.setText("X轴加速度：" + getRealData(integers.get(6), integers.get(7), integers.get(8), integers.get(9)));
+                                                textView5.setText("Y轴加速度：" + getRealData(integers.get(10), integers.get(11), integers.get(12), integers.get(13)));
+                                                textView6.setText("Z轴加速度：" + getRealData(integers.get(14), integers.get(15), integers.get(16), integers.get(17)));
                                             }
                                         });
                                 temp.add(mBltInputDataTemp.get(j));
@@ -136,7 +139,7 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
     private int getRealData(int data1, int data2, int data3, int data4) {
         YcLog.e("转换0:" + Integer.toHexString(data1) + " " + Integer.toHexString(data2) + " " + Integer.toHexString(data3) + " " + Integer.toHexString(data4));
 //        YcLog.e("转换1:" +Integer.toHexString(data1<<));
-        int x = (data1 << 32) ^ (data2 << 16) ^ (data3 << 8) ^ data4;
+        int x = (data1 << 24) ^ (data2 << 16) ^ (data3 << 8) ^ data4;
         YcLog.e("转换2:" + Integer.toHexString(x));
         if (data1 > 128) {//8位，大于128就是负数，而负数是以补码的形式
             x--;
