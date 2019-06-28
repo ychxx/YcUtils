@@ -1,6 +1,7 @@
 package com.yc.ycutilslibrary.phone;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -10,10 +11,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 import com.yc.ycutilslibrary.YcUtilsInit;
+import com.yc.ycutilslibrary.common.YcEmpty;
 import com.yc.ycutilslibrary.common.YcLog;
 import com.yc.ycutilslibrary.permissions.YcUtilPermission;
 
@@ -24,6 +27,9 @@ import java.io.File;
  */
 
 public class YcUtilVersion {
+    /**
+     * 获取版本号
+     */
     public static int getVersionCode() {
         if (YcUtilsInit.getApplication() == null) {
             YcLog.e("请先初始化，YcUtilsInit.init(Application)");
@@ -34,9 +40,6 @@ public class YcUtilVersion {
 
     /**
      * 获取版本号
-     *
-     * @param context
-     * @return
      */
     public static int getVersionCode(Context context) {
         try {
@@ -50,6 +53,9 @@ public class YcUtilVersion {
         return -1;
     }
 
+    /**
+     * 获取版本名
+     */
     public static String getVersionName() {
         if (YcUtilsInit.getApplication() == null) {
             YcLog.e("请先初始化，YcUtilsInit.init(Application)");
@@ -60,9 +66,6 @@ public class YcUtilVersion {
 
     /**
      * 获取版本名
-     *
-     * @param context
-     * @return
      */
     public static String getVersionName(Context context) {
         try {
@@ -76,6 +79,9 @@ public class YcUtilVersion {
         return "";
     }
 
+    /**
+     * 获取包名
+     */
     public static String getPackageName() {
         if (YcUtilsInit.getApplication() == null) {
             YcLog.e("请先初始化，YcUtilsInit.init(Application)");
@@ -86,12 +92,75 @@ public class YcUtilVersion {
 
     /**
      * 获取包名
-     *
-     * @param context
-     * @return
      */
     public static String getPackageName(Context context) {
         return context.getPackageName();
+    }
+
+
+    /**
+     * 获取状态栏高度
+     */
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    /**
+     * 获取手机IMEI(设备id)
+     * 需要Manifest.permission.READ_PHONE_STATE权限
+     *
+     * @param activity
+     * @return
+     */
+    @SuppressLint("MissingPermission")
+    public static String getIMEI(Activity activity) {
+        try {
+            //实例化TelephonyManager对象
+            TelephonyManager telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+            //获取IMEI号
+            if (YcUtilPermission.newInstance(activity).isHasPermission(Manifest.permission.READ_PHONE_STATE)) {
+                return YcEmpty.getNoEmpty(telephonyManager.getDeviceId());
+            } else {
+                YcLog.e("没有" + Manifest.permission.READ_PHONE_STATE + "权限，无法获取imei值");
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
+     * 获取手机Sn（设备序列号）
+     */
+    public static String getSn(Context context) {
+        return android.os.Build.SERIAL;
+    }
+
+    /**
+     * 获取手机IMSI（sim卡序列号）
+     * 需要Manifest.permission.READ_PHONE_STATE权限
+     */
+    @SuppressLint("MissingPermission")
+    public static String getIMSI(Activity activity) {
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+            if (YcUtilPermission.newInstance(activity).isHasPermission(Manifest.permission.READ_PHONE_STATE)) {
+                //获取IMSI号
+                return YcEmpty.getNoEmpty(telephonyManager.getSubscriberId());
+            } else {
+                YcLog.e("没有" + Manifest.permission.READ_PHONE_STATE + "权限，无法获取IMSI值");
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     /**
@@ -101,7 +170,6 @@ public class YcUtilVersion {
      * @param file
      */
     public static void installApk(Context context, File file) {
-
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri data;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !YcUtilPermission.newInstance((Activity) context).isHasPermission(Manifest.permission.REQUEST_INSTALL_PACKAGES)) {

@@ -110,17 +110,7 @@ public class TestBltScanDeviceActivity extends YcAppCompatActivity {
                 }
                 break;
             case R.id.testBluetoothTestCancelBtn:
-                YcUtilPermission.newInstance(getActivity())
-                        .addPermissions(new String[]{Manifest.permission.BLUETOOTH,
-                                Manifest.permission.BLUETOOTH_ADMIN,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION})
-                        .setSuccessCall(new YcUtilPermission.SuccessCall() {
-                            @Override
-                            public void onCall() {
-                                YcLog.e("有权限");
-                            }
-                        }).start();
+
 //                mBtlDiscoveryReceiver.onCancelDiscovery();//取消扫描蓝牙设备
                 break;
         }

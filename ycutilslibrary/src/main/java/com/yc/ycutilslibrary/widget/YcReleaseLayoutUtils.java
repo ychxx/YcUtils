@@ -20,32 +20,44 @@ public class YcReleaseLayoutUtils {
     @LayoutRes
     private static int mLoadingIdRes = R.layout.yc_layout_loading;
     @LayoutRes
-    private static int mNetIdRes = R.layout.yc_layout_net;
+    private static int mNotNetIdRes = R.layout.yc_layout_not_net;
     private final static String CONTAINER_TAG = "CONTAINER_TAG";
     private final static String LAYOUT_TAG = "LAYOUT_TAG";
 
-    public void setEmptyIdRes(int emptyIdRes) {
-        this.mEmptyIdRes = emptyIdRes;
+    /**
+     * 设置 没有数据 时显示的页面
+     */
+    public static void setEmptyIdRes(int emptyIdRes) {
+        mEmptyIdRes = emptyIdRes;
     }
 
-    public void setLoadingIdRes(int loadingIdRes) {
-        this.mLoadingIdRes = loadingIdRes;
+    /**
+     * 设置 加载中 时显示的页面
+     */
+    public static void setLoadingIdRes(int loadingIdRes) {
+        mLoadingIdRes = loadingIdRes;
     }
 
-    public void setNetIdRes(int netIdRes) {
-        this.mNetIdRes = netIdRes;
+    /**
+     * 设置 没有网络 时显示的页面
+     */
+    public static void setNotNetIdRes(int notNetIdRes) {
+        mNotNetIdRes = notNetIdRes;
     }
 
-    public static void showEmptyLayout(View view) {
-        showLayout(view, mEmptyIdRes);
+    public static void showEmptyLayout(View originalView) {
+        showLayout(originalView, mEmptyIdRes);
     }
 
-    public static void showLoadingLayout(View view) {
-        showLayout(view, mLoadingIdRes);
+    public static void showLoadingLayout(View originalView) {
+        showLayout(originalView, mLoadingIdRes);
     }
 
-    public static void showNetLayout(View view) {
-        showLayout(view, mNetIdRes);
+    /**
+     * 设置加载网络图片失败时显示的图片
+     */
+    public static void showNotNetLayout(View originalView) {
+        showLayout(originalView, mNotNetIdRes);
     }
 
     /**

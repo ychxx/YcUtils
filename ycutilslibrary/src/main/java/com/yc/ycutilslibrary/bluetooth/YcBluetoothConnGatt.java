@@ -1,5 +1,6 @@
 package com.yc.ycutilslibrary.bluetooth;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -82,6 +83,10 @@ public class YcBluetoothConnGatt {
     }
 
     public void conn(BluetoothDevice device, Context context) {
+        BluetoothAdapter bltAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bltAdapter != null && bltAdapter.isDiscovering()) {
+            bltAdapter.cancelDiscovery();
+        }
         mBluetoothGatt = device.connectGatt(context, false, mGattCallback);
     }
 }

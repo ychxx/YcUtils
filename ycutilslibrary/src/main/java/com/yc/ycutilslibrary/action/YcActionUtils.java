@@ -1,8 +1,6 @@
 package com.yc.ycutilslibrary.action;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,21 +8,9 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.content.FileProvider;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.theartofdev.edmodo.cropper.CropImageView;
-import com.yc.ycutilslibrary.R;
 import com.yc.ycutilslibrary.common.YcLog;
-import com.yc.ycutilslibrary.common.YcTransform;
-import com.yc.ycutilslibrary.file.YcFileUtils;
-import com.yc.ycutilslibrary.phone.YcUtilPhoneInfo;
 import com.yc.ycutilslibrary.phone.YcUtilVersion;
 
 import java.io.File;
