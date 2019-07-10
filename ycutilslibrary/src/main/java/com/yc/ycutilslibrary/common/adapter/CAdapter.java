@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.classic.adapter.interfaces.ImageLoad;
 
 /**
- * 项目名称: CommonAdapter
+ * 复制于CommonAdapter里的adapter
  * 包 名 称: com.classic.adapter
  * <p>
  * 类 描 述: Adapter全局配置
@@ -13,12 +13,12 @@ import com.classic.adapter.interfaces.ImageLoad;
  * 创建时间: 2016/11/27 17:54.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class YcAdapter {
-    public static volatile YcAdapter singleton = null;
+public final class CAdapter {
+    public static volatile CAdapter singleton = null;
 
     private ImageLoad mImageLoadImpl;
 
-    private YcAdapter(Builder builder) {
+    private CAdapter(Builder builder) {
         mImageLoadImpl = builder.mImageLoadImpl;
     }
 
@@ -28,7 +28,7 @@ public final class YcAdapter {
 
     public static void config(@NonNull Builder builder) {
         if (singleton == null) {
-            synchronized (YcAdapter.class) {
+            synchronized (CAdapter.class) {
                 if (singleton == null) {
                     singleton = builder.build();
                 }
@@ -47,8 +47,8 @@ public final class YcAdapter {
             return this;
         }
 
-        public YcAdapter build() {
-            return new YcAdapter(this);
+        public CAdapter build() {
+            return new CAdapter(this);
         }
     }
 }

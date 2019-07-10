@@ -1,26 +1,23 @@
 package com.yc.ycutils.test.adapter;
 
 import android.content.Context;
-import android.view.ViewGroup;
 
 import com.yc.ycutils.R;
-import com.yc.ycutilslibrary.common.BaseViewHolder;
-import com.yc.ycutilslibrary.common.YcRecycleViewAdapter;
-
-import io.reactivex.functions.Consumer;
+import com.yc.ycutilslibrary.common.adapter.CViewHolder;
+import com.yc.ycutilslibrary.common.adapter.YcMultipleRecycleViewAdapter;
 
 /**
  *
  */
 
-public class TestRecycleViewAdapter extends YcRecycleViewAdapter {
+public class TestRecycleViewAdapter extends YcMultipleRecycleViewAdapter {
 
 
     public TestRecycleViewAdapter(Context mContext) {
         this.mContext = mContext;
     }
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(CViewHolder holder, int position) {
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.yc.ycutilslibrary.common.YcLog;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,7 +64,11 @@ public class YcBluetoothConnGatt {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             byte[] data = characteristic.getValue();
-
+            StringBuilder test = new StringBuilder();
+            for (int i = 0; i < data.length; i++) {
+                test.append(" ").append(Integer.toHexString(data[i] & 0xFF));
+            }
+            Log.e("原始数据", test.toString());
             onSend(data);
         }
     };
@@ -72,10 +77,25 @@ public class YcBluetoothConnGatt {
      * 将数据发射给设置好的回调
      */
     private synchronized void onSend(byte[] inputData) {
-        if (mObserver == null)
-            return;
+        Log.e("AAAAA", "收到的数据个数: " + inputData.length);
         Disposable d = Observable.just(inputData).observeOn(AndroidSchedulers.mainThread()).subscribe(mObserver);
-//        mDisposable.add(d);
+        mDisposable.add(d);
+    }
+
+    private List<Disposable> mDisposable = new ArrayList<>();//用来在结束扫描后，停止回调
+
+    public void onDestroy() {
+        if (mBluetoothGatt != null) {
+            mBluetoothGatt.disconnect();
+        }
+        if (mDisposable != null) {
+            for (Disposable d : mDisposable) {
+                if (d != null) {
+                    d.dispose();
+                }
+            }
+            mDisposable.clear();
+        }
     }
 
     public void setInputCall(Consumer<byte[]> observer) {

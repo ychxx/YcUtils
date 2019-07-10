@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.yc.yclibrary.base.YcAppCompatActivity;
@@ -14,23 +13,14 @@ import com.yc.ycutilslibrary.bluetooth.YcBluetoothConnGatt;
 import com.yc.ycutilslibrary.common.Crc16;
 import com.yc.ycutilslibrary.common.YcLog;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.BaseStream;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 /**
  * 蓝牙通信
@@ -71,12 +61,14 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
     }
 
     private int BLT_START_MAKE = 0xFA;
+    private Disposable mSendData;
+    YcBluetoothConnGatt mBluetoothGatt;
 
     @Override
     protected void initView(Bundle bundle) {
         mBltDevice = getIntent().getParcelableExtra(KEY_BLE_DEVICE);
-        YcBluetoothConnGatt bluetoothGatt = new YcBluetoothConnGatt();
-        bluetoothGatt.setInputCall(new Consumer<byte[]>() {
+        mBluetoothGatt = new YcBluetoothConnGatt();
+        mBluetoothGatt.setInputCall(new Consumer<byte[]>() {
             @SuppressLint({"NewApi", "CheckResult"})
             @Override
             public void accept(byte[] bytes) throws Exception {
@@ -85,7 +77,7 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
                 for (int i = 0; i < real.size(); i++) {
                     s.append(Integer.toHexString(real.get(i))).append(" ");
                 }
-                Log.e("AAAAA", "收到的数据: " + s);
+                YcLog.e("AAAAA", "收到的数据: " + s);
                 for (int i = 0; i < real.size(); i++) {
                     mBltInputDataTemp.add(real.get(i));
                 }
@@ -98,7 +90,7 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
                             if (mBltInputData.size() < 32) {
                                 mBltInputData.add(mBltInputDataTemp.get(j));
                             } else {
-                                Observable.just(mBltInputData)
+                                mSendData = Observable.just(mBltInputData)
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(new Consumer<List<Integer>>() {
                                             @Override
@@ -112,6 +104,7 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
                                                 }
                                                 YcLog.e("截取到的数据：", logs.toString());
                                                 int x = getRealData(integers.get(18), integers.get(19), integers.get(20), integers.get(21));
+                                                YcLog.e("xx", "x:" + x + " 十六：" + Integer.toHexString(x));
                                                 textView2.setText("X轴倾角数据：" + x / 10000.0);
                                                 int y = getRealData(integers.get(22), integers.get(23), integers.get(24), integers.get(25));
                                                 textView3.setText("Y轴倾角数据：" + y / 10000.0);
@@ -133,7 +126,7 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
                 }
             }
         });
-        bluetoothGatt.conn(mBltDevice, getActivity());
+        mBluetoothGatt.conn(mBltDevice, getActivity());
     }
 
     private int getRealData(int data1, int data2, int data3, int data4) {
@@ -150,6 +143,17 @@ public class TestBltCommunicationActivity extends YcAppCompatActivity {
             YcLog.e("转换5:" + Integer.toHexString(x));
         }
         return x;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mSendData != null) {
+            mSendData.dispose();
+        }
+        if (mBluetoothGatt != null) {
+            mBluetoothGatt.onDestroy();
+        }
+        super.onDestroy();
     }
 
     public List<Integer> getHexInt(byte[] data) {

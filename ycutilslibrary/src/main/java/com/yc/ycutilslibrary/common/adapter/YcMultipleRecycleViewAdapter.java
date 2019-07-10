@@ -1,27 +1,21 @@
-package com.yc.ycutilslibrary.common;
+package com.yc.ycutilslibrary.common.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.classic.adapter.BaseAdapterHelper;
-import com.yc.ycutilslibrary.toactivity.YcForResultBean;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
-import io.reactivex.subjects.PublishSubject;
 
 /**
  *
  */
 
-public abstract class YcRecycleViewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public abstract class YcMultipleRecycleViewAdapter extends RecyclerView.Adapter<CViewHolder> {
     protected Context mContext;
     private BiFunction<Integer, Object, Object> mBiFunction;
     private Consumer<Integer> mConsumer;
@@ -33,12 +27,12 @@ public abstract class YcRecycleViewAdapter extends RecyclerView.Adapter<BaseView
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final BaseViewHolderHelper helper = BaseViewHolderHelper.get(mContext, null, parent, viewType);
-        return new BaseViewHolder(helper);
+    public CViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final CViewHolderHelper helper = CViewHolderHelper.get(mContext, null, parent, viewType);
+        return new CViewHolder(helper);
     }
 
-    public void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
+    public void onBindViewHolder(CViewHolder holder, int position, List<Object> payloads) {
         holder.itemView.setOnClickListener(v -> onItemOnClick(position));
         onBindViewHolder(holder, position);
     }
@@ -46,6 +40,7 @@ public abstract class YcRecycleViewAdapter extends RecyclerView.Adapter<BaseView
      * 单击Item回调
      * 若是回调参数有多种重写该方法，可以参考Observable.zip(source1,source2,source3....,BiFunction) 或者自定接口
      */
+    @SuppressLint("CheckResult")
     public void onItemOnClick(int position) {
         if (getItem(position) == null) {
             Observable.just(position).subscribe(mConsumer);
@@ -53,13 +48,6 @@ public abstract class YcRecycleViewAdapter extends RecyclerView.Adapter<BaseView
             Observable.zip(Observable.just(position), Observable.just(getItem(position)), mBiFunction).subscribe();
         }
     }
-//    public <T> T test(T t){
-//        return t;
-//    }
-//    public <T> T test(Class<T> t) throws IllegalAccessException, InstantiationException {
-//        T newInstan = t.newInstance();
-//        return newInstan;
-//    }
     /**
      * 单击Item回调
      *

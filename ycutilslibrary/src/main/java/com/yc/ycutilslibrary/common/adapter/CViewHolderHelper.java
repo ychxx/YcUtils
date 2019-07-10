@@ -1,4 +1,4 @@
-package com.yc.ycutilslibrary.common;
+package com.yc.ycutilslibrary.common.adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -25,7 +25,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
@@ -35,13 +34,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.classic.adapter.interfaces.ImageLoad;
-import com.yc.ycutilslibrary.common.adapter.YcAdapter;
 
 /**
- *
+ *复制于CommonAdapter里的ViewHolderHelper
  */
 @SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
-public class BaseViewHolderHelper {
+public class CViewHolderHelper {
     /**
      * Views indexed with their IDs
      */
@@ -57,40 +55,40 @@ public class BaseViewHolderHelper {
      */
     Object mAssociatedObject;
 
-    protected BaseViewHolderHelper(Context context, ViewGroup parent, int layoutId, int position) {
+    protected CViewHolderHelper(Context context, ViewGroup parent, int layoutId, int position) {
         this.mContext = context;
         this.mPosition = position;
         this.mLayoutId = layoutId;
         this.mViews = new SparseArray<>();
         mConvertView = LayoutInflater.from(context).inflate(layoutId, parent, false);
         mConvertView.setTag(this);
-        if (null != YcAdapter.singleton && null != YcAdapter.singleton.getImageLoad()) {
-            mImageLoad = YcAdapter.singleton.getImageLoad();
+        if (null != CAdapter.singleton && null != CAdapter.singleton.getImageLoad()) {
+            mImageLoad = CAdapter.singleton.getImageLoad();
         }
     }
 
     /**
-     * This method is the only entry point to get a BaseViewHolderHelper.
+     * This method is the only entry point to get a CViewHolderHelper.
      *
      * @param context     The current context.
      * @param convertView The convertView arg passed to the getView() method.
      * @param parent      The parent arg passed to the getView() method.
-     * @return A BaseViewHolderHelper instance.
+     * @return A CViewHolderHelper instance.
      */
-    public static BaseViewHolderHelper get(Context context, View convertView, ViewGroup parent, int layoutId) {
+    public static CViewHolderHelper get(Context context, View convertView, ViewGroup parent, int layoutId) {
         return get(context, convertView, parent, layoutId, -1);
     }
 
-    static BaseViewHolderHelper get(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
+    static CViewHolderHelper get(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
         if (convertView == null) {
-            return new BaseViewHolderHelper(context, parent, layoutId, position);
+            return new CViewHolderHelper(context, parent, layoutId, position);
         }
 
         // Retrieve the existing helper and update its position
-        BaseViewHolderHelper existingHelper = (BaseViewHolderHelper) convertView.getTag();
+        CViewHolderHelper existingHelper = (CViewHolderHelper) convertView.getTag();
 
         if (existingHelper.mLayoutId != layoutId) {
-            return new BaseViewHolderHelper(context, parent, layoutId, position);
+            return new CViewHolderHelper(context, parent, layoutId, position);
         }
 
         existingHelper.mPosition = position;
@@ -106,7 +104,7 @@ public class BaseViewHolderHelper {
 
     /**
      * This method allows you to retrieve a view and perform custom
-     * operations on it, not covered by the BaseViewHolderHelper.
+     * operations on it, not covered by the CViewHolderHelper.
      * If you think it's a common use case, please consider creating
      * a new issue at https://github.com/JoanZapata/base-adapter-helper/issues.
      *
@@ -124,7 +122,7 @@ public class BaseViewHolderHelper {
      */
     public int getPosition() {
         if (mPosition == -1) {
-            throw new IllegalStateException("Use BaseViewHolderHelper constructor " +
+            throw new IllegalStateException("Use CViewHolderHelper constructor " +
                     "with mPosition if you need to retrieve the mPosition.");
         }
         return mPosition;
@@ -145,7 +143,7 @@ public class BaseViewHolderHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public BaseViewHolderHelper setBackground(@IdRes int viewId, @NonNull Drawable drawable) {
+    public CViewHolderHelper setBackground(@IdRes int viewId, @NonNull Drawable drawable) {
         retrieveView(viewId).setBackground(drawable);
         return this;
     }
@@ -155,9 +153,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId The view id.
      * @param color  A color, not a resource id.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setBackgroundColor(@IdRes int viewId, @ColorInt int color) {
+    public CViewHolderHelper setBackgroundColor(@IdRes int viewId, @ColorInt int color) {
         retrieveView(viewId).setBackgroundColor(color);
         return this;
     }
@@ -167,9 +165,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId        The view id.
      * @param backgroundRes A resource to use as a background.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setBackgroundRes(@IdRes int viewId, @DrawableRes int backgroundRes) {
+    public CViewHolderHelper setBackgroundRes(@IdRes int viewId, @DrawableRes int backgroundRes) {
         retrieveView(viewId).setBackgroundResource(backgroundRes);
         return this;
     }
@@ -179,14 +177,14 @@ public class BaseViewHolderHelper {
      *
      * @param viewId The view id.
      * @param value  The text to put in the text view.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setText(@IdRes int viewId, CharSequence value) {
+    public CViewHolderHelper setText(@IdRes int viewId, CharSequence value) {
         ((TextView) retrieveView(viewId)).setText(value);
         return this;
     }
 
-    public BaseViewHolderHelper setTextRes(@IdRes int viewId, @StringRes int resId) {
+    public CViewHolderHelper setTextRes(@IdRes int viewId, @StringRes int resId) {
         ((TextView) retrieveView(viewId)).setText(resId);
         return this;
     }
@@ -196,9 +194,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId    The view id.
      * @param textColor The text color (not a resource id).
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setTextColor(@IdRes int viewId, @ColorInt int textColor) {
+    public CViewHolderHelper setTextColor(@IdRes int viewId, @ColorInt int textColor) {
         ((TextView) retrieveView(viewId)).setTextColor(textColor);
         return this;
     }
@@ -208,9 +206,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId       The view id.
      * @param textColorRes The text color resource id.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setTextColorRes(@IdRes int viewId, @ColorRes int textColorRes) {
+    public CViewHolderHelper setTextColorRes(@IdRes int viewId, @ColorRes int textColorRes) {
         //noinspection deprecation
         ((TextView) retrieveView(viewId)).setTextColor(mContext.getResources().getColor(textColorRes));
         return this;
@@ -223,17 +221,17 @@ public class BaseViewHolderHelper {
      * @param textColorRes The text color resource id.
      * @param theme        theme The theme used to style the color attributes, may be
      *                     {@code null}.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
     @TargetApi(Build.VERSION_CODES.M)
-    public BaseViewHolderHelper setTextColorRes(
+    public CViewHolderHelper setTextColorRes(
             @IdRes int viewId, @ColorRes int textColorRes, @Nullable Resources.Theme theme) {
         ((TextView) retrieveView(viewId)).setTextColor(mContext.getResources().getColor(textColorRes, theme));
         return this;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public BaseViewHolderHelper setImageIcon(@IdRes int viewId, @NonNull Icon icon) {
+    public CViewHolderHelper setImageIcon(@IdRes int viewId, @NonNull Icon icon) {
         ((ImageView) retrieveView(viewId)).setImageIcon(icon);
         return this;
     }
@@ -243,9 +241,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId     The view id.
      * @param imageResId The image resource id.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setImageResource(@IdRes int viewId, @DrawableRes int imageResId) {
+    public CViewHolderHelper setImageResource(@IdRes int viewId, @DrawableRes int imageResId) {
         ((ImageView) retrieveView(viewId)).setImageResource(imageResId);
         return this;
     }
@@ -255,9 +253,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param drawable The image drawable.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setImageDrawable(@IdRes int viewId, @NonNull Drawable drawable) {
+    public CViewHolderHelper setImageDrawable(@IdRes int viewId, @NonNull Drawable drawable) {
         ((ImageView) retrieveView(viewId)).setImageDrawable(drawable);
         return this;
     }
@@ -267,9 +265,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param imageUrl The image URL.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setImageUrl(@IdRes int viewId, @NonNull String imageUrl) {
+    public CViewHolderHelper setImageUrl(@IdRes int viewId, @NonNull String imageUrl) {
         if (null != this.mImageLoad) {
             ImageView view = retrieveView(viewId);
             this.mImageLoad.load(mContext, view, imageUrl);
@@ -280,7 +278,7 @@ public class BaseViewHolderHelper {
     /**
      * Custom network load images
      */
-    public BaseViewHolderHelper setImageLoad(@NonNull ImageLoad imageLoad) {
+    public CViewHolderHelper setImageLoad(@NonNull ImageLoad imageLoad) {
         this.mImageLoad = imageLoad;
         return this;
     }
@@ -288,7 +286,7 @@ public class BaseViewHolderHelper {
     /**
      * Add an action to set the image of an image view. Can be called multiple times.
      */
-    public BaseViewHolderHelper setImageBitmap(@IdRes int viewId, @NonNull Bitmap bitmap) {
+    public CViewHolderHelper setImageBitmap(@IdRes int viewId, @NonNull Bitmap bitmap) {
         ((ImageView) retrieveView(viewId)).setImageBitmap(bitmap);
         return this;
     }
@@ -297,7 +295,7 @@ public class BaseViewHolderHelper {
      * Add an action to set the alpha of a view. Can be called multiple times.
      * Alpha between 0-1.
      */
-    public BaseViewHolderHelper setAlpha(@IdRes int viewId, @FloatRange(from = 0.0, to = 1.0) float value) {
+    public CViewHolderHelper setAlpha(@IdRes int viewId, @FloatRange(from = 0.0, to = 1.0) float value) {
         retrieveView(viewId).setAlpha(value);
         return this;
     }
@@ -307,29 +305,29 @@ public class BaseViewHolderHelper {
      *
      * @param viewId  The view id.
      * @param visible True for VISIBLE, false for GONE.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setVisible(@IdRes int viewId, boolean visible) {
+    public CViewHolderHelper setVisible(@IdRes int viewId, boolean visible) {
         retrieveView(viewId).setVisibility(visible ? View.VISIBLE : View.GONE);
         return this;
     }
 
-    public BaseViewHolderHelper setVisible(@IdRes int viewId, int visibility) {
+    public CViewHolderHelper setVisible(@IdRes int viewId, int visibility) {
         retrieveView(viewId).setVisibility(visibility);
         return this;
     }
 
-    public BaseViewHolderHelper setEnabled(@IdRes int viewId, boolean enabled) {
+    public CViewHolderHelper setEnabled(@IdRes int viewId, boolean enabled) {
         retrieveView(viewId).setEnabled(enabled);
         return this;
     }
 
-    public BaseViewHolderHelper setFocusable(@IdRes int viewId, boolean focusable) {
+    public CViewHolderHelper setFocusable(@IdRes int viewId, boolean focusable) {
         retrieveView(viewId).setFocusable(focusable);
         return this;
     }
 
-    public BaseViewHolderHelper setFocusableInTouchMode(@IdRes int viewId, boolean focusableInTouchMode) {
+    public CViewHolderHelper setFocusableInTouchMode(@IdRes int viewId, boolean focusableInTouchMode) {
         retrieveView(viewId).setFocusableInTouchMode(focusableInTouchMode);
         return this;
     }
@@ -338,9 +336,9 @@ public class BaseViewHolderHelper {
      * Add All links into a TextView.
      *
      * @param viewId TextView id.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper addAllLinks(@IdRes int viewId) {
+    public CViewHolderHelper addAllLinks(@IdRes int viewId) {
         addLinks(viewId, Linkify.ALL);
         return this;
     }
@@ -349,10 +347,10 @@ public class BaseViewHolderHelper {
      * Add links into a TextView.
      *
      * @param viewId TextView id.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      * @see android.text.util.Linkify#addLinks(TextView text, int mask)
      */
-    public BaseViewHolderHelper addLinks(@IdRes int viewId, @LinkifyCompat.LinkifyMask int mask) {
+    public CViewHolderHelper addLinks(@IdRes int viewId, @LinkifyCompat.LinkifyMask int mask) {
         TextView view = retrieveView(viewId);
         Linkify.addLinks(view, mask);
         return this;
@@ -361,7 +359,7 @@ public class BaseViewHolderHelper {
     /**
      * Apply the typeface to the given viewId, and enable sub pixel rendering.
      */
-    public BaseViewHolderHelper setTypeface(@IdRes int viewId, @NonNull Typeface typeface) {
+    public CViewHolderHelper setTypeface(@IdRes int viewId, @NonNull Typeface typeface) {
         TextView view = retrieveView(viewId);
         view.setTypeface(typeface);
         view.setPaintFlags(view.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG);
@@ -371,14 +369,14 @@ public class BaseViewHolderHelper {
     /**
      * Apply the typeface to all the given viewIds, and enable sub pixel rendering.
      */
-    public BaseViewHolderHelper setTypeface(@NonNull Typeface typeface, @IdRes int... viewIds) {
+    public CViewHolderHelper setTypeface(@NonNull Typeface typeface, @IdRes int... viewIds) {
         for (int viewId : viewIds) {
             setTypeface(viewId, typeface);
         }
         return this;
     }
 
-    public BaseViewHolderHelper setTypeface(@IdRes int viewId, Typeface typeface, int style) {
+    public CViewHolderHelper setTypeface(@IdRes int viewId, Typeface typeface, int style) {
         TextView view = retrieveView(viewId);
         view.setTypeface(typeface, style);
         view.setPaintFlags(view.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG);
@@ -390,9 +388,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param progress The progress.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setProgress(@IdRes int viewId, int progress) {
+    public CViewHolderHelper setProgress(@IdRes int viewId, int progress) {
         ((ProgressBar) retrieveView(viewId)).setProgress(progress);
         return this;
     }
@@ -403,9 +401,9 @@ public class BaseViewHolderHelper {
      * @param viewId   The view id.
      * @param progress The progress.
      * @param max      The max value of a ProgressBar.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setProgress(@IdRes int viewId, int progress, int max) {
+    public CViewHolderHelper setProgress(@IdRes int viewId, int progress, int max) {
         ProgressBar view = retrieveView(viewId);
         view.setMax(max);
         view.setProgress(progress);
@@ -417,9 +415,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId The view id.
      * @param max    The max value of a ProgressBar.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setMax(@IdRes int viewId, int max) {
+    public CViewHolderHelper setMax(@IdRes int viewId, int max) {
         ((ProgressBar) retrieveView(viewId)).setMax(max);
         return this;
     }
@@ -429,9 +427,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId The view id.
      * @param rating The rating.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setRating(@IdRes int viewId, float rating) {
+    public CViewHolderHelper setRating(@IdRes int viewId, float rating) {
         ((RatingBar) retrieveView(viewId)).setRating(rating);
         return this;
     }
@@ -442,9 +440,9 @@ public class BaseViewHolderHelper {
      * @param viewId The view id.
      * @param rating The rating.
      * @param max    The range of the RatingBar to 0...max.
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setRating(@IdRes int viewId, float rating, int max) {
+    public CViewHolderHelper setRating(@IdRes int viewId, float rating, int max) {
         RatingBar view = retrieveView(viewId);
         view.setMax(max);
         view.setRating(rating);
@@ -456,9 +454,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId The view id.
      * @param tag    The tag;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setTag(@IdRes int viewId, @NonNull Object tag) {
+    public CViewHolderHelper setTag(@IdRes int viewId, @NonNull Object tag) {
         retrieveView(viewId).setTag(tag);
         return this;
     }
@@ -469,9 +467,9 @@ public class BaseViewHolderHelper {
      * @param viewId The view id.
      * @param key    The key of tag;
      * @param tag    The tag;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setTag(@IdRes int viewId, int key, @NonNull Object tag) {
+    public CViewHolderHelper setTag(@IdRes int viewId, int key, @NonNull Object tag) {
         retrieveView(viewId).setTag(key, tag);
         return this;
     }
@@ -481,9 +479,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId  The view id.
      * @param checked The checked status;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setChecked(@IdRes int viewId, boolean checked) {
+    public CViewHolderHelper setChecked(@IdRes int viewId, boolean checked) {
         View view = retrieveView(viewId);
         if (view instanceof CompoundButton) {
             ((CompoundButton) view).setChecked(checked);
@@ -498,15 +496,15 @@ public class BaseViewHolderHelper {
      *
      * @param viewId  The view id.
      * @param adapter The adapter;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
     @SuppressWarnings("unchecked")
-    public BaseViewHolderHelper setAdapter(@IdRes int viewId, @NonNull Adapter adapter) {
+    public CViewHolderHelper setAdapter(@IdRes int viewId, @NonNull android.widget.Adapter adapter) {
         ((AdapterView) retrieveView(viewId)).setAdapter(adapter);
         return this;
     }
 
-    public BaseViewHolderHelper setAdapter(@IdRes int viewId, @NonNull RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
+    public CViewHolderHelper setAdapter(@IdRes int viewId, @NonNull RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
         ((RecyclerView) retrieveView(viewId)).setAdapter(adapter);
         return this;
     }
@@ -516,9 +514,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param listener The on click listener;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setOnClickListener(@IdRes int viewId, @NonNull View.OnClickListener listener) {
+    public CViewHolderHelper setOnClickListener(@IdRes int viewId, @NonNull View.OnClickListener listener) {
         retrieveView(viewId).setOnClickListener(listener);
         return this;
     }
@@ -528,9 +526,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param listener The on touch listener;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setOnTouchListener(@IdRes int viewId, @NonNull View.OnTouchListener listener) {
+    public CViewHolderHelper setOnTouchListener(@IdRes int viewId, @NonNull View.OnTouchListener listener) {
         retrieveView(viewId).setOnTouchListener(listener);
         return this;
     }
@@ -540,9 +538,9 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param listener The on long click listener;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setOnLongClickListener(@IdRes int viewId, @NonNull View.OnLongClickListener listener) {
+    public CViewHolderHelper setOnLongClickListener(@IdRes int viewId, @NonNull View.OnLongClickListener listener) {
         retrieveView(viewId).setOnLongClickListener(listener);
         return this;
     }
@@ -552,10 +550,10 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param listener The item on click listener;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setOnItemClickListener(@IdRes int viewId,
-                                                       @NonNull AdapterView.OnItemClickListener listener) {
+    public CViewHolderHelper setOnItemClickListener(@IdRes int viewId,
+                                                    @NonNull AdapterView.OnItemClickListener listener) {
         ((AdapterView) retrieveView(viewId)).setOnItemClickListener(listener);
         return this;
     }
@@ -565,10 +563,10 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param listener The item long click listener;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setOnItemLongClickListener(@IdRes int viewId,
-                                                           @NonNull AdapterView.OnItemLongClickListener listener) {
+    public CViewHolderHelper setOnItemLongClickListener(@IdRes int viewId,
+                                                        @NonNull AdapterView.OnItemLongClickListener listener) {
         ((AdapterView) retrieveView(viewId)).setOnItemLongClickListener(listener);
         return this;
     }
@@ -578,10 +576,10 @@ public class BaseViewHolderHelper {
      *
      * @param viewId   The view id.
      * @param listener The item selected click listener;
-     * @return The BaseViewHolderHelper for chaining.
+     * @return The CViewHolderHelper for chaining.
      */
-    public BaseViewHolderHelper setOnItemSelectedClickListener(@IdRes int viewId,
-                                                               @NonNull AdapterView.OnItemSelectedListener listener) {
+    public CViewHolderHelper setOnItemSelectedClickListener(@IdRes int viewId,
+                                                            @NonNull AdapterView.OnItemSelectedListener listener) {
         ((AdapterView) retrieveView(viewId)).setOnItemSelectedListener(listener);
         return this;
     }
