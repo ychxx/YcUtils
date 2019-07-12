@@ -8,6 +8,7 @@ import android.util.Log;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yc.ycutilslibrary.exception.YcBltException;
+import com.yc.ycutilslibrary.exception.YcException;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -151,7 +152,7 @@ public class YcUtilPermission {
     }
 
     public interface SuccessCall {
-        void onCall() throws YcBltException;
+        void onCall() throws YcException;
     }
 
     public interface FailCall {

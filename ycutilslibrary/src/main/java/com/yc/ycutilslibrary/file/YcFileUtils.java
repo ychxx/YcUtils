@@ -13,6 +13,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -159,8 +160,6 @@ public class YcFileUtils {
      * 获取指定文件大小
      *
      * @param filePath
-     * @return
-     * @throws Exception
      */
     public static long getFileSize(String filePath) {
         long size = 0;
