@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.android.support:design:26.0.1'
     testImplementation 'junit:junit:4.12'
     /* view依赖注入 */
-    compile 'com.jakewharton:butterknife:8.5.1'
+    implementation 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     /* mvp框架 */
     implementation 'com.github.ychxx:YcMvp:1.2.0'
@@ -58,7 +58,7 @@ dependencies {
     }
     implementation 'com.android.support:exifinterface:26.+'
 
-    implementation 'com.contrarywind:Android-PickerView:3.2.7'
+//    implementation 'com.contrarywind:Android-PickerView:3.2.7'
     /* 下载 */
     implementation 'org.xutils:xutils:3.5.0'
     /* 一个适用于ListView/GridView/RecyclerView的Adapter库,简化大量重复代码,支持多种布局,可自定义图片加载的实现*/

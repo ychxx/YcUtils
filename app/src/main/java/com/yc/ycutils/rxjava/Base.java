@@ -110,6 +110,11 @@ public class Base {
         //每隔2000毫秒发射一个aLong，从0开始到无穷大。
         Observable<Long> observable2 = Observable.interval(2000, TimeUnit.MILLISECONDS);
         //参数说明 （aLong起始数值，发射次数，延迟initialDelay开始第一次发射，两次发射间隔时间，时间单位）
+        //start：起始数值
+        //count：发射数量
+        //initialDelay：延迟执行时间
+        //period：发射周期时间
+        //unit：时间单位
         Observable<Long> observable3 = Observable.intervalRange(2, 3, 2, 3, TimeUnit.SECONDS);
     }
     /**

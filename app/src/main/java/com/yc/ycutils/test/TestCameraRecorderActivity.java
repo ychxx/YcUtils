@@ -5,11 +5,10 @@ import android.view.View;
 
 import com.yc.yclibrary.base.YcAppCompatActivity;
 import com.yc.ycutils.R;
-import com.yc.ycutilslibrary.camera.YcCameraVideotapeSfv;
+import com.yc.ycutilslibrary.camera.YcCameraRecorderSfv;
 import com.yc.ycutilslibrary.permissions.YcUtilPermission;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -17,7 +16,7 @@ import butterknife.OnClick;
  */
 public class TestCameraRecorderActivity extends YcAppCompatActivity {
     @BindView(R.id.testCameraRecorderSfv)
-    YcCameraVideotapeSfv mSfv;
+    YcCameraRecorderSfv mSfv;
 
     @Override
     protected int getLayoutId() {
@@ -29,9 +28,11 @@ public class TestCameraRecorderActivity extends YcAppCompatActivity {
         YcUtilPermission.newInstance(getActivity())
                 .addPermissions(YcUtilPermission.PERMISSION_PHONE)
                 .addPermissions(YcUtilPermission.PERMISSION_CAMERA)
+                .addPermissions(YcUtilPermission.PERMISSION_STORAGE)
                 .addPermissions(YcUtilPermission.PERMISSION_MICROPHONE)
                 .start();
     }
+
 
 
     @OnClick({R.id.testCameraRecorderStartBtn, R.id.testCameraRecorderEndBtn})
@@ -41,7 +42,12 @@ public class TestCameraRecorderActivity extends YcAppCompatActivity {
                 mSfv.startRecord();
                 break;
             case R.id.testCameraRecorderEndBtn:
-                mSfv.stopRecord();
+                mSfv.saveRecord(new YcCameraRecorderSfv.SaveCall() {
+                    @Override
+                    public void onSuccessCall() {
+
+                    }
+                });
                 break;
         }
     }

@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.yc.ycutilslibrary.camera.YcCameraVideotapeSfv
+    <com.yc.ycutilslibrary.camera.YcCameraRecorderSfv
         android:id="@+id/testCameraRecorderSfv"
         android:layout_width="0dp"
         android:layout_height="0dp"

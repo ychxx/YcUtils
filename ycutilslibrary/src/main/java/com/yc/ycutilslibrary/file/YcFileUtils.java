@@ -211,6 +211,7 @@ public class YcFileUtils {
      */
     public static void uploadFile(HashMap<String, String> params, final IUploadFileCall callback) {
         RequestParams requestParams = new RequestParams();
+//        requestParams.addHeader();
         for (Map.Entry<String, String> entry : params.entrySet()) {
             requestParams.addBodyParameter(entry.getKey(), entry.getValue());
         }

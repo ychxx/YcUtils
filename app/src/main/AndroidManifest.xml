@@ -23,7 +23,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -35,7 +36,7 @@
         <activity android:name=".test.vr_img.VrImgActivity">
 
         </activity>
-        <activity android:name=".ijkplay.PlayVideoActivity" />
+        <!--<activity android:name=".ijkplay.PlayVideoActivity" />-->
         <!--<activity-->
         <!--android:name=".TestPermissionActivity"-->
         <!--android:launchMode="singleTop" />-->
@@ -54,7 +55,11 @@
 
         </activity>
         <activity android:name=".test.blt.TestBltScanDeviceActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".test.blt.TestBltCommunicationActivity"
@@ -62,12 +67,24 @@
         <activity
             android:name=".test.TestCameraRecorderActivity"
             android:launchMode="singleTop">
+
+        </activity>
+        <activity android:name=".TestSocketActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".TestUploadBigFileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
